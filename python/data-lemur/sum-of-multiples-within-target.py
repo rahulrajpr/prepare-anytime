@@ -5,4 +5,5 @@
 
 def fizz_buzz_sum(target):
   multiples = [x for x in range(0,target) if (x%3 == 0 or x%5 == 0)]
-  return sum(multiples)
+  result = sum(multiples)
+  return result
