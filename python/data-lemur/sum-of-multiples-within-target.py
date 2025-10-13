@@ -4,8 +4,5 @@
 # Because 3 + 5 + 6 + 9 = 23, our function would return 23.
 
 def fizz_buzz_sum(target):
-  three_multiples = [x for x in range(0,target) if x%3 == 0]
-  five_multiples = [x for x in range(0,target) if x%5 == 0]
-  all_multiple = three_multiples + five_multiples
-  all_multiple_unique = set(all_multiple)
-  return sum(all_multiple_unique)
+  multiples = [x for x in range(0,target) if (x%3 == 0 or x%5 == 0)]
+  return sum(multiples)
