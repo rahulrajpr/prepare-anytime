@@ -10,14 +10,15 @@
 # Input: matrix = [[3, 6, 9], [2, 5, 8], [1, 4, 7]]
 # Output: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-def rotate(matrix):
+def rotate(matrix, clockwise=True):
     def rotate_matrix_func(matrix):
         temp_row = []
         temp_list = []
         for ind in range(0, len(matrix)):
             for item in matrix:
                 temp_row.append(item[ind])
-            temp_row = temp_row[::-1] 
+            if clockwise:
+                temp_row = temp_row[::-1] 
             temp_list.append(temp_row)  
             temp_row = []
         return temp_list
