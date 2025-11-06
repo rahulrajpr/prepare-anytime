@@ -1,1 +1,1 @@
-prepare-for-changes-notes-and-snippets
+prepare-for-improvement-notes-and-snippets
