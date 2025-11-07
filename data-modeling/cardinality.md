@@ -53,27 +53,17 @@
 ### 1:1 Mandatory
 [EMPLOYEE] ||——|| [PARKING_SPOT]
 
-text
-
 ### 1:M Optional to Mandatory
 [DEPARTMENT] ||——|< [EMPLOYEE]
-
-text
 
 ### M:M with Junction Table
 [STUDENT] ||——|< [ENROLLMENT] >|——|| [COURSE]
 
-text
-
 ### Optional Participation
 [CUSTOMER] |o——|| [ORDER]
 
-text
-
 ### Mandatory Participation  
 [EMPLOYEE] ||——|| [SALARY]
-
-text
 
 ---
 
@@ -83,49 +73,3 @@ text
 - **Maximum = 1** → Single occurrence
 - **Maximum = N** → Multiple occurrences
 - Cardinality defines business rules between entities
-markdown
-# Database Normalization (1NF, 2NF, 3NF)
-
-## 1st Normal Form (1NF)
-**Rule:** Eliminate repeating groups. Each cell must have a single, atomic value.
-
-### Before 1NF:
-| CustomerID | Name  | Orders                 |
-|------------|-------|------------------------|
-| 101        | John  | Pen, Pencil, Notebook  |
-
-### After 1NF:
-| CustomerID | Name  | OrderItem |
-|------------|-------|-----------|
-| 101        | John  | Pen       |
-| 101        | John  | Pencil    |
-| 101        | John  | Notebook  |
-
----
-
-## 2nd Normal Form (2NF)
-**Rule:** Must be in 1NF AND every non-key column depends on the **entire** primary key.
-
-### Before 2NF:
-**Primary Key:** `(CustomerID, OrderItem)`
-| CustomerID | OrderItem | Name  | Price |
-|------------|-----------|-------|-------|
-| 101        | Pen       | John  | 2.00  |
-| 101        | Pencil    | John  | 1.50  |
-
-**Problem:** `Name` only depends on `CustomerID`, not the entire key.
-
-### After 2NF:
-**Orders Table** (depends on the full key)
-| CustomerID | OrderItem | Price |
-|------------|-----------|-------|
-| 101        | Pen       | 2.00  |
-| 101        | Pencil    | 1.50  |
-
-**Customers Table** (depends only on CustomerID)
-| CustomerID | Name  |
-|------------|-------|
-|
-
-Continue
-
