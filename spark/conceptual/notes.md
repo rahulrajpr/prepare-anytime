@@ -17,4 +17,16 @@ Notes :
 * how to see the size of a dataframe in spark session ?
 * how to explore the spark ui ?
 * distinguish executors and worker nodes and threds ?
-  
+* where the spark-warehouse tables are getting loaded ?
+* spark.sql.autoBroadcastJoinThreshold ?
+* how to optimise the spark joins effectively ?
+* Bucket By for removing the shuffle from sort-merge join ?
+* Spark data-lake?
+* Distributed file storage systema and file formats and table formats ?
+* how to handle reading a corrected file like csv, with some rows having issue with dataframe reader?
+* dataframe.schema.simpleString() ?
+* inferScheama option, explicitly Specify Schema, Implicity Get Schema from file format for DataFrame Reader Api ?
+* spark datatypes?
+* Dataframe reader option('dateFormat','fmt') , likely date formts ? while reading the dataframe?
+* supplying schema for dataFrame reader -- schems Struct, SQL DDL Way ?
+* what is sink Api ?
