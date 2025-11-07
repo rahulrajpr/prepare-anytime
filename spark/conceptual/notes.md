@@ -7,3 +7,4 @@ Notes :
 * toDF method
 * monotonically_increasing_id() function
 * passing list of values to methods like .drop("col1","col2","col3") and .dropDuplicate(["col1","col2"]) -- like how to pass the list of values
+* count(*), count(1) and count(col), differences
