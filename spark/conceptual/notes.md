@@ -13,3 +13,4 @@ Notes :
 * outer join, full outer join, left outer join and their implications ?
 * shuffle sort join (shuffle join) vs broadcast join ?
 * how to optimise the join and improve the performance ?
+* how will you define the large dataframe and small dataframe , what is the criteria on saying that ?
