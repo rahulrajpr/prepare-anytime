@@ -14,3 +14,6 @@ Notes :
 * shuffle sort join (shuffle join) vs broadcast join ?
 * how to optimise the join and improve the performance ?
 * how will you define the large dataframe and small dataframe , what is the criteria on saying that ?
+* how to see the size of a dataframe in spark session ?
+* how to explore the spark ui ?
+  
