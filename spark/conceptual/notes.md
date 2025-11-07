@@ -4,3 +4,4 @@ Notes :
 * function regexp_expr
 * registering the udf in the dataframe function and udf in a sql expression and when the udf is available in the spark catelogue
 * spark catelogue listFunctions
+* toDF method
