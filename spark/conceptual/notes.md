@@ -12,3 +12,4 @@ Notes :
 * When I join two tables that both have an id column, using select(*) works and returns both columns. But if I explicitly write select('id'), Spark throws an "ambiguous column" error. Why is there a difference?
 * outer join, full outer join, left outer join and their implications ?
 * shuffle sort join (shuffle join) vs broadcast join ?
+* how to optimise the join and improve the performance ?
