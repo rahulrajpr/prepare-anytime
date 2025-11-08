@@ -41,3 +41,4 @@ Notes :
 * what are crc files in the output, write results ?
 * reasonable write file sizes in spark ?
 * repartition(n) method and partitionBy(col) method in write method -- with parallellizm and partition pruning ?
+* parttion by numeber and partitoion by column how the output is orgsnized by the dierctory level ?
