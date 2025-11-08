@@ -46,3 +46,4 @@ Notes :
 * spark in memory database per session and spark uses then hive metastore persistent datastore ? distinguish and how does it work ?
 * spark managed tables and unmanaged tables ?
 * spark sql warehouse, spark.sql.warehouse.dir ?
+* sparkSession.enableHiveSupport() ?
