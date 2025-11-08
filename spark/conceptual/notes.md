@@ -59,5 +59,6 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * driver machine, worker nodes, executors, cores, and cluster manager ?
 * spark operations - transformation and actions ?
 * narrow depandancy transformation and wide depandancy transformation ?
-* is it possible to push-down the filters to all kinds of internal ans external data sources for spark, categorise them ? 
+* is it possible to push-down the filters to all kinds of internal ans external data sources for spark, categorise them ?
+* shuffle sort operation , explain the same in the perview of the group by and join operataions ?
   
