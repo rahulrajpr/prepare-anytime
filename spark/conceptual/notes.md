@@ -62,5 +62,10 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * is it possible to push-down the filters to all kinds of internal ans external data sources for spark, categorise them ?
 * shuffle sort operation , explain the same in the perview of the group by and join operataions ?
 * lazy evaluation, and what are the advantages of the same ?
+* spark.sql.suffle.partitions ? configuration, most useful spark configuration
+* how AWS glue and databricks does the autoscaling on top of the apache Spark ?
+* how aws glue dynamic Dataframe is different from spark dataframes ?
+* spark-ui is only avalilable during the spark session. we can use the log4j to keep up with the logs ?
+* spark-submit - spark-jobs - stages - tasks ?
   
   
