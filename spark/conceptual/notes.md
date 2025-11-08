@@ -68,5 +68,7 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * spark-ui is only avalilable during the spark session. we can use the log4j to keep up with the logs ?
 * spark-submit spark actions - spark-jobs - stages - tasks ?
 * how to attain the parallelism in the read operation in case the datafile is not partitioned ?
+* what is the role of a zepplin notebook in the whole scenario ?
+  
   
   
