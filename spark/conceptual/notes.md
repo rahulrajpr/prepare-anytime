@@ -38,3 +38,4 @@ Notes :
 * BucketBy and Partition By and SortBy while writing the dataframe
 * dataframe.rdd.getNumPartitions ?
 * there could be chances that the dataframe may have multiple partitions but in some cases the some of the partitons are empty, so while writing the dataframe without partitionBy method or repartion method, you may see num of the dataframe partitions and file output partions may not match?
+* what are crc files in the output, write results ?
