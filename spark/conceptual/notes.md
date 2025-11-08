@@ -76,6 +76,26 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * YARN Cluster Managers in in cloud Databricks and google dataproc ? on premise set up like cloudera.
 * latest spark versions available in the databricks, google dataproc, aws glue ?
 * how zeplin notbooks are different from the databricks notebook ?
+* spark - machine learning libraries ?
+* time-series data processing in spark ? -- spark streamin
+* real time analytics of apache spark ?
+* what is data skweness - Uneven distribution of data across partitions
+* partition tuning - Partition tuning is crucial for optimizing Spark jobs as it allows developers to control the number of partitions, impacting parallelism and resource utilization. It involves finding the right balance to avoid excessive data shuffling or inadequate parallelism.
+* dynamic partition pruning (DDP), how to enable and what could be the best scenario ?
+* 3vs of big data and explanations
+* How does Spark's Catalyst Optimizer enhance query performance - Cost-based query optimization
+* When processing a multi-terabyte dataset, what strategy should be considered to optimize data read and write operations in Spark? - Caching frequently accessed data in memory
+* Consider a case where a Spark job's shuffle read and write times are significantly uneven. What does this indicate in terms of data distribution? - Skewed data partitions
+* What impact does the choice of data format (like Parquet vs. CSV) have on Spark performance? - comparison
+* what is reduceByKey operation
+* what is dataspilling the content of spark ?
+* memory management in spark ?
+* broadcast join mechanics, considerations and advnatages ?
+* salting technics on the large dataset skewness ?
+* what is spark core ?
+* what is cogroup ?
+* AQE - advantages and enabling ?
+* Garbage collection in memery management
   
   
   
