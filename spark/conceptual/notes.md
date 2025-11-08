@@ -61,4 +61,6 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * narrow depandancy transformation and wide depandancy transformation ?
 * is it possible to push-down the filters to all kinds of internal ans external data sources for spark, categorise them ?
 * shuffle sort operation , explain the same in the perview of the group by and join operataions ?
+* lazy evaluation, and what are the advantages of the same ?
+  
   
