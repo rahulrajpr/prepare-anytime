@@ -33,3 +33,4 @@ Notes :
 * MAP Exchange and Reduce Exchange in the shuffle sort merge join ?
 * spark.read.table ?
 * spark datasources and sinks ?
+* findspark library ?
