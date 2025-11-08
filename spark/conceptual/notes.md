@@ -47,3 +47,5 @@ Notes :
 * spark managed tables and unmanaged tables ?
 * spark sql warehouse, spark.sql.warehouse.dir ?
 * sparkSession.enableHiveSupport() ?
+* advantage of the having spark sql table for external use like odbc/jdbc, tablue and powerbi etc and using a parquet file etrenally.
+also using sql tables and parquet filesn interanlly by the spark api's ?
