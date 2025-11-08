@@ -66,6 +66,6 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * how AWS glue and databricks does the autoscaling on top of the apache Spark ?
 * how aws glue dynamic Dataframe is different from spark dataframes ?
 * spark-ui is only avalilable during the spark session. we can use the log4j to keep up with the logs ?
-* spark-submit - spark-jobs - stages - tasks ?
+* spark-submit spark actions - spark-jobs - stages - tasks ?
   
   
