@@ -55,3 +55,5 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * RDD, what is it and how they are resiliant and , compate with dataframe, how they are fault tolerant ?
 * dataframe api are based on spark session and RDD are based on SparkContext ?
 * spark sql engine and catelyst optimiser , different phases from analysis, logical, physical, and code generation ?
+* what is the difference between distributed file storage system and notmal storage system?
+  
