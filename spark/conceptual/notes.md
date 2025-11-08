@@ -99,8 +99,8 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * is caching happens in all workwer nodes or executors ?
 * map method aand flat map method ?
 * accumalators ?
-* Catalyst optimizer & Thungston Engine ?
-* 
-  
-  
-  
+* Catalyst optimizer & Thungston Engine , Unified Memory Management ?
+* compare avro and parquet and delta ?
+* data shuffling during the window functions?
+* range between in a window function
+* When processing a large dataset with multiple joins in Spark SQL, what optimization techniques should be considered? - Repartitioning, Broadcasting, Caching, Shuffle tuning
