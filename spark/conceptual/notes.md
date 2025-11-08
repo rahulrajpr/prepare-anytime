@@ -74,6 +74,7 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * spark session configuration file ? and spark configuration?
 * what is a dpu in aws glue ?
 * YARN Cluster Managers in in cloud Databricks and google dataproc ? on premise set up like cloudera.
+* latest spark versions available in the databricks, google dataproc, aws glue ?
   
   
   
