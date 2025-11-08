@@ -32,3 +32,4 @@ Notes :
 * what is sink Api ?
 * MAP Exchange and Reduce Exchange in the shuffle sort merge join ?
 * spark.read.table ?
+* spark datasources and sinks ?
