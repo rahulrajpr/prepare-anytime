@@ -43,3 +43,4 @@ Notes :
 * repartition(n) method and partitionBy(col) method in write method -- with parallellizm and partition pruning ?
 * parttion by numeber and partitoion by column how the output is orgsnized by the dierctory level ?
 * using maxRecordsPerFiles to control the size of the output file, but how can we existimate them properly ?
+* spark in memory database per session and spark uses then hive metastore persistent datastore ? distinguish and how does it work ?
