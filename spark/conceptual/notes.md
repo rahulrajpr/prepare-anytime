@@ -54,3 +54,4 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * spark sql, dataset api, dataframe api , catelist optimizer and rdd?
 * RDD, what is it and how they are resiliant and , compate with dataframe, how they are fault tolerant ?
 * dataframe api are based on spark session and RDD are based on SparkContext ?
+* spark sql engine and catelyst optimiser , different phases from analysis, logical, physical, and code generation ?
