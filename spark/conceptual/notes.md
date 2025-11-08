@@ -75,6 +75,7 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * what is a dpu in aws glue ?
 * YARN Cluster Managers in in cloud Databricks and google dataproc ? on premise set up like cloudera.
 * latest spark versions available in the databricks, google dataproc, aws glue ?
+* how zeplin notbooks are different from the databricks notebook ?
   
   
   
