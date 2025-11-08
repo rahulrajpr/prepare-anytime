@@ -67,5 +67,6 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * how aws glue dynamic Dataframe is different from spark dataframes ?
 * spark-ui is only avalilable during the spark session. we can use the log4j to keep up with the logs ?
 * spark-submit spark actions - spark-jobs - stages - tasks ?
+* how to attain the parallelism in the read operation ?
   
   
