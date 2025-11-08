@@ -96,6 +96,11 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * what is cogroup ?
 * AQE - advantages and enabling ?
 * Garbage collection in memery management
+* is caching happens in all workwer nodes or executors ?
+* map method aand flat map method ?
+* accumalators ?
+* Catalyst optimizer & Thungston Engine ?
+* 
   
   
   
