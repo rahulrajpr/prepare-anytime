@@ -57,4 +57,5 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * spark sql engine and catelyst optimiser , different phases from analysis, logical, physical, and code generation ?
 * what is the difference between distributed file storage system and notmal storage system?
 * driver machine, worker nodes, executors, cores, and cluster manager ?
+* spark operations - transformation and actions ?
   
