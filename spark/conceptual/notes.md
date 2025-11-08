@@ -73,6 +73,7 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * different cluster managers, which is prefered onec, which cluster managers are usd in aws glue and databricks platforms ?
 * spark session configuration file ? and spark configuration?
 * what is a dpu in aws glue ?
+* YARN Cluster Managers in in cloud Databricks and google dataproc ? on premise set up like cloudera.
   
   
   
