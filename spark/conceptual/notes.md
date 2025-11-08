@@ -30,3 +30,4 @@ Notes :
 * Dataframe reader option('dateFormat','fmt') , likely date formts ? while reading the dataframe?
 * supplying schema for dataFrame reader -- schems Struct, SQL DDL Way ?
 * what is sink Api ?
+* MAP Exchange and Reduce Exchange in the shuffle sort merge join ?
