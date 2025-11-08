@@ -34,3 +34,6 @@ Notes :
 * spark.read.table ?
 * spark datasources and sinks ?
 * findspark library ?
+* maxRecordPerFile while writing the dataframe?
+* BucketBy and Partition By and SortBy while writing the dataframe
+* 
