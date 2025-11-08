@@ -36,4 +36,4 @@ Notes :
 * findspark library ?
 * maxRecordPerFile while writing the dataframe?
 * BucketBy and Partition By and SortBy while writing the dataframe
-* 
+* dataframe.rdd.getNumPartitions ?
