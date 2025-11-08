@@ -69,6 +69,9 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * spark-submit spark actions - spark-jobs - stages - tasks ?
 * how to attain the parallelism in the read operation in case the datafile is not partitioned ?
 * what is the role of a zepplin notebook in the whole scenario ?
+* different deployement modes of apache spark operation ?
+* different cluster managers, which is prefered onec, which cluster managers are usd in aws glue and databricks platforms ?
+* 
   
   
   
