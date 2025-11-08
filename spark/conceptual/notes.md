@@ -46,7 +46,7 @@ Notes :
 * spark in memory database per session and spark uses then hive metastore persistent datastore ? distinguish and how does it work ?
 * spark managed tables and unmanaged tables ?
 * spark sql warehouse, spark.sql.warehouse.dir ?
-* sparkSession.enableHiveSupport() ?
+* sparkSession.enableHiveSupport() ? for the managed tables
 * advantage of the having spark sql table for external use like odbc/jdbc, tablue and powerbi etc and using a parquet file etrenally.
 also using sql tables and parquet filesn interanlly by the spark api's ?
 * spark.catelogue, spark.catelogue.setCurrentDatabase("databasename"), spark.catelogue.listTables()
@@ -56,4 +56,5 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * dataframe api are based on spark session and RDD are based on SparkContext ?
 * spark sql engine and catelyst optimiser , different phases from analysis, logical, physical, and code generation ?
 * what is the difference between distributed file storage system and notmal storage system?
+* driver machine, worker nodes, executors, cores, and cluster manager ?
   
