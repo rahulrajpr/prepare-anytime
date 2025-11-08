@@ -4,7 +4,7 @@ Notes :
 * function regexp_expr
 * registering the udf in the dataframe function and udf in a sql expression and when the udf is available in the spark catelogue
 * spark catelogue listFunctions
-* toDF method
+* what is toDF method, what is the purpose ?
 * monotonically_increasing_id() function
 * passing list of values to methods like .drop("col1","col2","col3") and .dropDuplicate(["col1","col2"]) -- like how to pass the list of values
 * count(*), count(1) and count(col), differences
@@ -59,5 +59,5 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * driver machine, worker nodes, executors, cores, and cluster manager ?
 * spark operations - transformation and actions ?
 * narrow depandancy transformation and wide depandancy transformation ?
-* 
+* is it possible to push-down the filters to all kinds of internal ans external data sources for spark, categorise them ? 
   
