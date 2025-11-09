@@ -73,25 +73,228 @@
    - b) SQL DDL string notation
 42. When would you use each schema definition approach?
 
-### 3.3 Column Operations
-43. What is the syntax difference when passing multiple columns: `.drop("col1", "col2")` vs `.dropDuplicates(["col1", "col2"])`?
-44. When do you use varargs vs list for passing multiple column names?
-45. What is the difference between `count(*)`, `count(1)`, and `count(col)`?
-46. How do these count variations handle null values differently?
-47. What does `monotonically_increasing_id()` function generate? Is it guaranteed to be sequential?
-48. What are the practical use cases for `monotonically_increasing_id()`?
-49. Explain the `regexp_extract()` function and its usage for pattern matching.
+### 3.3 Spark Data Types
+43. What are the primitive data types in Spark (StringType, IntegerType, LongType, DoubleType, BooleanType, etc.)?
+44. What complex data types does Spark support (ArrayType, MapType, StructType)?
+45. How do you define an ArrayType column in a schema?
+46. How do you define a MapType column in a schema?
+47. How do you define a StructType (nested structure) in a schema?
+48. What is the difference between nullable=True and nullable=False in schema definition?
+49. How do you handle null values in different data types?
+50. What are DateType and TimestampType? How do they differ?
+51. What is DecimalType and when should you use it instead of DoubleType?
+52. What is BinaryType and what are its use cases?
 
-### 3.4 Select and Column Ambiguity
-50. When joining two tables with the same column name (e.g., 'id'), why does `select("*")` work but `select("id")` throws an "ambiguous column" error?
-51. How do you resolve column name ambiguity after joins?
+### 3.4 Column Operations & Functions
+53. What is the syntax difference when passing multiple columns: `.drop("col1", "col2")` vs `.dropDuplicates(["col1", "col2"])`?
+54. When do you use varargs vs list for passing multiple column names?
+55. What is the difference between `count(*)`, `count(1)`, and `count(col)`?
+56. How do these count variations handle null values differently?
+57. What does `monotonically_increasing_id()` function generate? Is it guaranteed to be sequential?
+58. What are the practical use cases for `monotonically_increasing_id()`?
+59. What is the difference between `row_number()`, `rank()`, and `dense_rank()` window functions?
+60. When would you use `lead()` and `lag()` functions?
+61. What is the `first()` and `last()` aggregate function? How do they handle nulls?
+62. Explain the difference between `collect_list()` and `collect_set()`.
+63. What does `explode()` function do? Provide an example use case.
+64. What is the difference between `explode()` and `explode_outer()`?
+65. What does `posexplode()` do and how is it different from `explode()`?
+66. How do you use `array_contains()` function?
+67. What does `split()` function return and what is its data type?
+68. How do you use `concat()` vs `concat_ws()` (concat with separator)?
+69. What is `coalesce()` function and how does it differ from `coalesce()` for repartitioning?
+70. What does `nvl()` or `ifnull()` do? Are they the same?
+71. Explain `when().otherwise()` construct with examples.
+72. What is the difference between `withColumn()` and `select()` for adding/transforming columns?
+73. Can you use `withColumn()` multiple times in a chain? What are the performance implications?
+74. What does `withColumnRenamed()` do? Can you rename multiple columns at once?
+75. What is `selectExpr()` and when would you use it instead of `select()`?
+76. How do you drop multiple columns efficiently?
+77. What does `drop()` return if you try to drop a non-existent column?
 
-### 3.5 Advanced Transformations
-52. What is the difference between `map()` and `flatMap()` methods?
-53. When would you use `map()` vs `flatMap()`?
-54. What is the `cogroup()` operation and how does it differ from join operations?
+### 3.5 String Functions
+78. Explain the `regexp_extract()` function and its usage for pattern matching.
+79. What is the difference between `regexp_extract()` and `regexp_replace()`?
+80. How do you use `like()` and `rlike()` for pattern matching?
+81. What does `substring()` function do? What are its parameters?
+82. How do you use `trim()`, `ltrim()`, and `rtrim()`?
+83. What is `upper()`, `lower()`, `initcap()` used for?
+84. How do you use `lpad()` and `rpad()` for padding strings?
+85. What does `length()` function return for null values?
+86. How do you check if a string contains a substring in Spark?
 
-## 4. Window Functions
+### 3.6 Date & Time Functions
+87. What are the key date and time functions in Spark (current_date, current_timestamp, date_add, date_sub)?
+88. How do you extract year, month, day from a date column?
+89. What does `datediff()` function calculate?
+90. How do you use `to_date()` and `to_timestamp()` for type conversion?
+91. What is the difference between `unix_timestamp()` and `from_unixtime()`?
+92. How do you handle different date formats when reading data?
+93. What does `date_format()` function do?
+94. How do you calculate the difference between two timestamps?
+95. What is `add_months()` function used for?
+96. How do you get the last day of the month using `last_day()`?
+97. What does `next_day()` function do?
+98. How do you handle timezone conversions in Spark?
+
+### 3.7 Aggregate Functions
+99. What is the difference between `sum()`, `sumDistinct()`, and `approx_count_distinct()`?
+100. When would you use `approx_count_distinct()` instead of `countDistinct()`?
+101. What does `avg()` return for null values?
+102. How do you use `min()` and `max()` functions?
+103. What is `stddev()` and `variance()` used for?
+104. What does `corr()` function calculate (correlation)?
+105. How do you use `percentile_approx()` function?
+106. What is `grouping()` and `grouping_id()` used for in GROUP BY operations?
+
+### 3.8 Array Functions
+107. How do you access array elements using `getItem()` or bracket notation?
+108. What does `array()` function do to create arrays from columns?
+109. How do you use `array_contains()` to check for element existence?
+110. What does `array_distinct()` do?
+111. How do you use `array_intersect()`, `array_union()`, `array_except()`?
+112. What does `array_join()` do?
+113. How do you sort array elements using `array_sort()`?
+114. What is `array_max()`, `array_min()`, `size()` used for?
+115. How do you use `flatten()` for nested arrays?
+116. What does `array_repeat()` function do?
+117. How do you use `slice()` to extract a portion of an array?
+118. What is `array_position()` used for?
+119. How do you remove elements from an array using `array_remove()`?
+120. What does `shuffle()` do to array elements?
+121. How do you use `zip_with()` for element-wise array operations?
+
+### 3.9 Map Functions
+122. How do you create a map using `map()` function or `map_from_arrays()`?
+123. How do you access map values using `getItem()` or bracket notation?
+124. What does `map_keys()` and `map_values()` return?
+125. How do you use `map_concat()` to merge maps?
+126. What does `map_from_entries()` do?
+127. How do you explode maps using `explode()` - what columns does it create?
+128. What is `map_filter()` used for?
+129. How do you get the size of a map using `size()`?
+
+### 3.10 Struct Functions
+130. How do you access struct fields using dot notation or `getField()`?
+131. What does `struct()` function do to create structs from columns?
+132. How do you flatten struct columns?
+133. Can you use `withColumn()` to modify a field within a struct?
+134. How do you select specific fields from a nested struct?
+
+### 3.11 Type Conversion & Casting
+135. How do you cast columns using `cast()` function?
+136. What is the difference between `cast()` and `astype()`?
+137. What happens when casting fails (e.g., string "abc" to integer)?
+138. How do you handle casting errors gracefully?
+139. What does `try_cast()` do in Spark SQL?
+
+### 3.12 Null Handling & Data Cleaning
+140. What is the difference between `dropna()` and `fillna()`?
+141. How do you drop rows with nulls in specific columns using `dropna(subset=[])`?
+142. What are the different threshold options in `dropna()`?
+143. How do you fill nulls with different values for different columns?
+144. What does `na.replace()` do?
+145. How do you use `isNull()` and `isNotNull()` for filtering?
+146. What is `nanvl()` used for (NaN value handling)?
+147. How do you distinguish between null and NaN in Spark?
+148. What does `dropDuplicates()` do? How do you specify subset of columns?
+149. Does `dropDuplicates()` preserve the order of rows?
+
+### 3.13 Column Expressions & SQL Functions
+150. What is the difference between using column names as strings vs Column objects (col(), F.col())?
+151. When must you use `col()` or `F.col()` instead of string column names?
+152. What does `expr()` function allow you to do?
+153. How do you reference columns from different DataFrames after a join?
+154. What is the `alias()` method used for?
+155. What does `name()` method return for a Column object?
+
+### 3.14 Conditional Logic & Case Statements
+156. How do you create complex conditional logic using `when().when().otherwise()`?
+157. What happens if you don't provide an `otherwise()` clause?
+158. How do you implement SQL CASE WHEN logic in PySpark?
+159. Can you nest `when()` conditions? Provide an example.
+
+### 3.15 JSON Functions
+160. How do you parse JSON strings using `from_json()`?
+161. What schema do you need to provide for `from_json()`?
+162. How do you convert structs to JSON using `to_json()`?
+163. What does `get_json_object()` do?
+164. How do you use `json_tuple()` to extract multiple fields?
+165. What is the difference between `from_json()` and `json_tuple()`?
+
+### 3.16 Advanced Column Operations
+166. What does `lit()` function do? When do you use it?
+167. How do you create a column with constant values across all rows?
+168. What is `input_file_name()` function used for?
+169. How do you use `spark_partition_id()` to see data distribution?
+170. What does `hash()` function compute?
+171. What is `md5()` and `sha1()` used for?
+172. How do you use `crc32()` for checksums?
+173. What does `base64()` and `unbase64()` do?
+174. How do you generate random values using `rand()` and `randn()`?
+
+### 3.17 Set Operations on DataFrames
+175. What is the difference between `union()` and `unionAll()`?
+176. What does `unionByName()` do? How is it different from `union()`?
+177. How do you use `intersect()` to find common rows?
+178. What does `subtract()` (or `exceptAll()`) do?
+179. Do set operations require the same schema in both DataFrames?
+180. How do set operations handle duplicates?
+
+### 3.18 DataFrame Gotchas & Common Pitfalls
+181. Why does chaining multiple `withColumn()` calls have performance implications?
+182. What is the better alternative to multiple `withColumn()` calls?
+183. When joining two tables with the same column name (e.g., 'id'), why does `select("*")` work but `select("id")` throws an "ambiguous column" error?
+184. How do you resolve column name ambiguity after joins?
+185. What happens when you call an action multiple times on the same DataFrame? Is it recomputed?
+186. Why should you be careful with `collect()` on large datasets?
+187. What is the difference between `df.count()` and `df.select(count("*"))` ?
+188. Can you modify a DataFrame in place? Why or why not?
+189. What happens when you try to access a column that doesn't exist?
+190. Why might `df.show()` show different results than the actual data?
+191. What is the behavior of `limit()` - does it guarantee which rows are returned?
+192. How do column name case sensitivity work in Spark (spark.sql.caseSensitive)?
+
+### 3.19 Performance Tips for DataFrame Operations
+193. Why is it better to filter data early in your transformation pipeline?
+194. What is the performance difference between `filter()` and `where()` (trick question)?
+195. When should you use `repartition()` vs `coalesce()`?
+196. What is the performance impact of using UDFs vs built-in functions?
+197. Why is `reduceByKey()` preferred over `groupByKey()` in RDD operations?
+198. How does column pruning (selecting only needed columns) improve performance?
+199. What is predicate pushdown and how does it improve query performance?
+200. Why should you avoid using `count()` unnecessarily in your code?
+
+### 3.20 Advanced Transformations
+201. What is the difference between `map()` and `flatMap()` methods?
+202. When would you use `map()` vs `flatMap()`?
+203. What is the `cogroup()` operation and how does it differ from join operations?
+204. How do you use `mapPartitions()` and when is it more efficient than `map()`?
+205. What does `foreachPartition()` do and how is it different from `foreach()`?
+206. What is `transform()` method on DataFrames used for?
+207. How do you use `pivot()` to reshape data from long to wide format?
+208. What does `unpivot()` or `melt()` do (wide to long format)?
+209. What is `cube()` operation in GROUP BY?
+210. How does `rollup()` differ from `cube()`?
+211. What does `groupingSets()` allow you to do?
+
+### 3.21 Function Comparisons & When to Use What
+212. `count()` vs `size()` - when to use each?
+213. `distinct()` vs `dropDuplicates()` - are they the same?
+214. `agg()` vs direct aggregation functions - when to use which approach?
+215. `select()` vs `selectExpr()` vs `withColumn()` - comparison and use cases
+216. `filter()` vs `where()` - is there any difference?
+217. `join()` vs `crossJoin()` - when would you use crossJoin?
+218. `union()` vs `unionAll()` vs `unionByName()` - key differences
+219. `orderBy()` vs `sort()` - are they the same?
+220. `repartition()` vs `coalesce()` - when to use which?
+221. `cache()` vs `persist()` - what's the difference?
+222. `collect()` vs `take()` vs `head()` - comparison
+223. `first()` vs `head()` vs `take(1)` - subtle differences
+224. `sample()` vs `sampleBy()` - when to use stratified sampling?
+225. `approx_count_distinct()` vs `countDistinct()` - accuracy vs performance trade-off
+226. `groupBy()` with `agg()` vs `groupBy()` with direct aggregation
+227. Window functions vs GROUP BY - when to use which approach?
 
 ### 4.1 Window Function Basics
 55. What is `rowsBetween` in window functions? Provide examples.
@@ -109,51 +312,188 @@
 
 ## 6. Data Sources & I/O Operations
 
-### 6.1 Reading Data
-63. What is the difference between `spark.read.table()` and `spark.read.parquet()`?
-64. What does the `read.option('samplingRatio', 'true')` do during schema inference?
-65. What is the `option('dateFormat', 'fmt')` used for? What are common date format patterns?
-66. How do you handle corrupted or malformed rows when reading CSV files?
-67. How do you achieve parallelism when reading from non-partitioned data files?
-68. What are the different Spark data sources and sinks available?
-69. What is the findspark library and when do you use it?
+### 6.1 Reading Data - Basics
+256. What is the difference between `spark.read.table()` and `spark.read.parquet()`?
+257. What does the `read.option('samplingRatio', 'true')` do during schema inference?
+258. What is the `option('dateFormat', 'fmt')` used for? What are common date format patterns?
+259. How do you handle corrupted or malformed rows when reading CSV files?
+260. How do you achieve parallelism when reading from non-partitioned data files?
+261. What are the different Spark data sources and sinks available?
+262. What is the findspark library and when do you use it?
 
-### 6.2 Writing Data
-70. What is the Sink API in Spark?
-71. What does `maxRecordsPerFile` control when writing DataFrames?
-72. How do you estimate appropriate values for `maxRecordsPerFile`?
-73. What are reasonable file sizes for Spark write operations in production?
-74. Why might the number of DataFrame partitions not match the number of output file partitions?
-75. Can DataFrame partitions be empty? What impact does this have on output files?
-76. What are .crc files in Spark output directories and what is their purpose?
+### 6.1.1 CSV Reading Options & Gotchas
+263. What does `option('header', 'true')` do when reading CSV files?
+264. What is `option('inferSchema', 'true')` and what are its performance implications?
+265. How do you specify custom delimiters using `option('sep', ',')`?
+266. What does `option('quote', '"')` control?
+267. How do you handle multi-line records using `option('multiLine', 'true')`?
+268. What does `option('escape', '\\')` do?
+269. What is `option('nullValue', 'NULL')` used for?
+270. How does `option('mode', 'PERMISSIVE')` differ from 'DROPMALFORMED' and 'FAILFAST'?
+271. What is `option('columnNameOfCorruptRecord', '_corrupt_record')` used for?
+272. How do you handle files with different encodings using `option('encoding', 'UTF-8')`?
+273. What does `option('ignoreLeadingWhiteSpace', 'true')` and `option('ignoreTrailingWhiteSpace', 'true')` do?
+274. Why might you get different results with `inferSchema=true` on partial data?
+
+### 6.1.2 JSON Reading Options
+275. What is `option('multiLine', 'true')` important for when reading JSON?
+276. How does JSON schema inference work differently from CSV?
+277. What does `option('primitivesAsString', 'true')` do?
+278. How do you handle JSON files with inconsistent schemas?
+
+### 6.1.3 Parquet Reading Options
+279. Does Parquet require schema inference? Why or why not?
+280. What is `option('mergeSchema', 'true')` used for in Parquet?
+281. How does Parquet handle predicate pushdown?
+282. What are the advantages of columnar storage in Parquet for read performance?
+
+### 6.1.4 ORC & Avro Reading
+283. How does ORC compare to Parquet for read performance?
+284. What is Avro's advantage for schema evolution?
+285. When would you choose ORC over Parquet?
+
+### 6.1.5 JDBC Reading Options
+286. How do you read from JDBC sources?
+287. What is `option('partitionColumn', 'id')` used for in JDBC reads?
+288. How do you specify `lowerBound`, `upperBound`, and `numPartitions` for parallel JDBC reads?
+289. What does `option('fetchsize', '1000')` control?
+290. What are the performance implications of JDBC reads without proper partitioning?
+
+### 6.2 Writing Data - Basics & Options
+291. What is the Sink API in Spark?
+292. What does `maxRecordsPerFile` control when writing DataFrames?
+293. How do you estimate appropriate values for `maxRecordsPerFile`?
+294. What are reasonable file sizes for Spark write operations in production?
+295. Why might the number of DataFrame partitions not match the number of output file partitions?
+296. Can DataFrame partitions be empty? What impact does this have on output files?
+297. What are .crc files in Spark output directories and what is their purpose?
+
+### 6.2.1 Write Modes
+298. What are the different save modes: append, overwrite, errorIfExists, ignore?
+299. What happens if you use 'overwrite' mode - does it delete the entire directory or just data files?
+300. What is the difference between static and dynamic overwrite modes?
+301. How do you enable dynamic partition overwrite?
+302. What are the risks of using 'overwrite' mode in production?
+
+### 6.2.2 Write Format Options - CSV
+303. What options are available when writing CSV files?
+304. How do you specify custom delimiters when writing CSV?
+305. What does `option('header', 'true')` do when writing CSV?
+306. How do you control quote characters and escape characters in CSV writes?
+307. What is `option('compression', 'gzip')` used for? What compression codecs are supported?
+
+### 6.2.3 Write Format Options - Parquet
+308. What compression codecs are supported for Parquet (snappy, gzip, lzo, brotli, etc.)?
+309. What is the default compression for Parquet in Spark?
+310. What does `option('mergeSchema', 'true')` do when writing Parquet?
+311. How do you control Parquet block size and page size?
+312. What are the trade-offs between compression ratio and write/read performance?
+
+### 6.2.4 Write Format Options - JSON
+313. What does `option('compression', 'gzip')` do for JSON writes?
+314. Can you write nested structures to JSON?
+315. How does JSON write performance compare to Parquet?
+
+### 6.2.5 Write Format Options - ORC & Delta
+316. What are the advantages of writing to ORC format?
+317. What compression options are available for ORC?
+318. What are Delta Lake's advantages over Parquet for writes (ACID, time travel)?
+319. How do you write to Delta format?
 
 ### 6.3 Partitioning During Writes
-77. What is the difference between `repartition(n)` and `partitionBy(col)` when writing DataFrames?
-78. How does `repartition(n)` organize output at the directory level?
-79. How does `partitionBy(col)` organize output at the directory level?
-80. How does `partitionBy(col)` enable partition pruning in subsequent reads?
-81. What is the relationship between parallelism and partition pruning when using these methods?
+320. What is the difference between `repartition(n)` and `partitionBy(col)` when writing DataFrames?
+321. How does `repartition(n)` organize output at the directory level?
+322. How does `partitionBy(col)` organize output at the directory level?
+323. How does `partitionBy(col)` enable partition pruning in subsequent reads?
+324. What is the relationship between parallelism and partition pruning when using these methods?
+325. Can you use both `repartition()` and `partitionBy()` together? What happens?
+326. What are the downsides of over-partitioning when writing data?
+327. What is the small file problem and how does it relate to partitioning?
+328. How many files should each partition ideally contain?
+329. What is partition explosion and how do you avoid it?
 
 ### 6.4 Bucketing
-82. What is bucketing in Spark? How do you use `bucketBy()` when writing data?
-83. How does bucketing work: bucket numbers, columns, and hash functions?
-84. What is the purpose of using `sortBy()` in combination with `bucketBy()`?
-85. How does bucketing with sorting optimize sort-merge joins by eliminating shuffle?
+330. What is bucketing in Spark? How do you use `bucketBy()` when writing data?
+331. How does bucketing work: bucket numbers, columns, and hash functions?
+332. What is the purpose of using `sortBy()` in combination with `bucketBy()`?
+333. How does bucketing with sorting optimize sort-merge joins by eliminating shuffle?
+334. Can you use `bucketBy()` with `partitionBy()` together?
+335. What are the limitations of bucketing?
+336. How do you read bucketed tables to take advantage of bucketing?
+337. What happens if you change the number of buckets after writing data?
 
 ## 7. File Formats & Storage Systems
 
 ### 7.1 Storage Systems
-86. What is the difference between distributed file storage systems and normal storage systems?
-87. What is a Spark data lake?
+338. What is the difference between distributed file storage systems and normal storage systems?
+339. What is a Spark data lake?
+340. What is HDFS and how does it work with Spark?
+341. What are the advantages of cloud storage (S3, ADLS, GCS) for Spark workloads?
 
-### 7.2 File Format Comparison
-88. What impact does the choice of data format (Parquet vs CSV vs Avro) have on Spark performance?
-89. Compare Avro, Parquet, and Delta formats in terms of:
-   - a) Performance
-   - b) Schema evolution
-   - c) ACID properties
-   - d) Use cases
-90. What is Apache Hudi and what data management problems does it solve?
+### 7.2 File Format Deep Dive - Parquet
+342. What is columnar storage? How does Parquet implement it?
+343. What are the advantages of Parquet for analytics workloads?
+344. How does Parquet handle nested data structures?
+345. What is a row group in Parquet?
+346. What is a column chunk in Parquet?
+347. How does Parquet encoding and compression work?
+348. What is predicate pushdown in Parquet and why is it efficient?
+349. What is projection pushdown in Parquet?
+350. What are the limitations of Parquet?
+
+### 7.3 File Format Deep Dive - Avro
+351. What is row-based storage? How does Avro use it?
+352. What are the advantages of Avro for streaming and schema evolution?
+353. How does Avro handle schema evolution (backward, forward, full compatibility)?
+354. When would you choose Avro over Parquet?
+355. How is Avro schema stored and transmitted?
+356. What is the performance trade-off between Avro and Parquet?
+
+### 7.4 File Format Deep Dive - ORC
+357. How is ORC similar to and different from Parquet?
+358. What compression techniques does ORC use?
+359. How does ORC handle predicate pushdown?
+360. What are ORC stripes, row groups, and indexes?
+361. When would you choose ORC over Parquet?
+
+### 7.5 File Format Deep Dive - Delta Lake
+362. What is Delta Lake and how is it different from a file format?
+363. What are the ACID transaction guarantees in Delta Lake?
+364. How does Delta Lake implement time travel?
+365. What is the Delta transaction log?
+366. How does Delta Lake handle updates and deletes?
+367. What is optimize and ZORDER in Delta Lake?
+368. What is vacuum in Delta Lake?
+369. How does Delta Lake schema enforcement work?
+370. What is schema evolution in Delta Lake?
+371. What are the performance benefits of Delta over Parquet?
+
+### 7.6 File Format Deep Dive - Apache Hudi
+372. What is Apache Hudi and what data management problems does it solve?
+373. What are Copy-on-Write (CoW) and Merge-on-Read (MoR) tables in Hudi?
+374. When would you use Hudi over Delta Lake?
+375. How does Hudi handle upserts?
+376. What is Hudi's timeline and commit model?
+
+### 7.7 File Format Comparisons
+377. Compare Parquet vs CSV in terms of:
+   - a) Storage efficiency
+   - b) Read performance
+   - c) Write performance
+   - d) Schema handling
+   - e) Use cases
+378. Compare Avro vs Parquet vs ORC for:
+   - a) Analytics workloads
+   - b) Streaming workloads
+   - c) Schema evolution requirements
+379. Compare Delta Lake vs Apache Hudi vs Apache Iceberg for:
+   - a) ACID transactions
+   - b) Time travel
+   - c) Performance
+   - d) Ecosystem support
+380. When would you use JSON format despite its inefficiency?
+381. What are the trade-offs between text formats (CSV, JSON) and binary formats (Parquet, Avro, ORC)?
+382. How does compression affect different file formats differently?
 
 ## 8. Joins in Spark
 
@@ -347,8 +687,76 @@
 193. What is the role of Zeppelin notebooks in the Spark ecosystem?
 194. How are Zeppelin notebooks different from Databricks notebooks?
 
-## 18. Additional Topics
+## 18. Additional Important Topics
 
-### 18.1 Miscellaneous
-195. What is the relationship between Spark SQL engine, Catalyst optimizer, and Tungsten engine?
-196. How do DataFrame API and RDD API differ in their relationship to SparkSession vs SparkContext?
+### 18.1 Broadcast Variables & Accumulators
+383. What are broadcast variables in Spark?
+384. When should you use broadcast variables?
+385. How do you create and use a broadcast variable?
+386. What are the limitations and size restrictions of broadcast variables?
+387. What are accumulators in Spark?
+388. How are accumulators used for distributed counting and metrics collection?
+389. What is the difference between accumulators and regular variables?
+390. Can you read accumulator values inside transformations? Why or why not?
+391. What happens to accumulator values if a task fails and retries?
+
+### 18.2 Spark Data Types - Collections & Complex Types
+392. How do you work with nested data structures in Spark?
+393. What are the performance implications of deeply nested schemas?
+394. How do you flatten nested structures?
+395. When should you denormalize data vs keep it normalized in Spark?
+396. How do you handle schema evolution with complex types?
+
+### 18.3 Common Gotchas & Best Practices
+397. What is the "out of memory" error and common causes in Spark?
+398. Why do you get "Task not serializable" errors? How do you fix them?
+399. What causes "Stage X has Y failed attempts" and how do you debug it?
+400. What is data skew and what are the symptoms in Spark UI?
+401. How do you identify and fix shuffle spill to disk issues?
+402. What are best practices for naming columns to avoid conflicts?
+403. How do you handle special characters in column names?
+404. What is the impact of data types on performance (e.g., StringType vs IntegerType)?
+405. Why should you avoid using `count()` multiple times on the same DataFrame?
+406. What happens when you mix transformation logic with actions improperly?
+
+### 18.4 DataFrame vs SQL - When to Use What
+407. When should you use DataFrame API vs Spark SQL?
+408. Can you mix DataFrame API and SQL in the same application?
+409. How do you register a DataFrame as a temporary view?
+410. What is the difference between `createTempView()` and `createGlobalTempView()`?
+411. How does performance compare between DataFrame API and SQL?
+412. Are there operations easier to express in SQL vs DataFrame API?
+
+### 18.5 Data Sampling & Debugging
+413. How do you use `sample()` for testing on subset of data?
+414. What does `sample(withReplacement, fraction, seed)` mean?
+415. What is stratified sampling using `sampleBy()`?
+416. How do you use `limit()` for quick data inspection?
+417. What does `show(n, truncate)` do? What are the parameters?
+418. How do you use `printSchema()` for debugging?
+419. What does `explain()` show? How do you read the physical plan?
+420. What does `explain(extended=True)` reveal?
+
+### 18.6 Type Safety & Datasets (Scala/Java)
+421. What is the difference between DataFrame and Dataset in Spark?
+422. What are the advantages of type safety in Datasets?
+423. When would you use Dataset over DataFrame?
+424. What is the performance cost of Datasets vs DataFrames?
+425. How does the encoder work in Datasets?
+
+### 18.7 Miscellaneous Important Questions
+426. What is the relationship between Spark SQL engine, Catalyst optimizer, and Tungsten engine?
+427. How do DataFrame API and RDD API differ in their relationship to SparkSession vs SparkContext?
+428. What is the difference between client libraries (PySpark, Spark Scala, Spark Java, SparkR)?
+429. How does PySpark communicate with JVM (Py4J)?
+430. What are the performance implications of using PySpark vs Scala Spark?
+431. When would you drop down to RDD API from DataFrame API?
+432. How do you convert between RDD and DataFrame?
+433. What is the cost of `collect()` in terms of network and memory?
+434. How do you handle timezone-aware timestamp operations?
+435. What is the difference between `current_timestamp()` and `now()`?
+436. How do you generate surrogate keys in distributed systems?
+437. What is `uuid()` function used for?
+438. How do you handle slowly changing dimensions (SCD) in Spark?
+439. What are best practices for handling PII (Personally Identifiable Information) in Spark?
+440. How do you implement data quality checks in Spark pipelines?
