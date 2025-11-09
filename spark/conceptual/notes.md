@@ -94,7 +94,7 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * salting technics on the large dataset skewness ?
 * what is spark core ?
 * what is cogroup ?
-* AQE - advantages and enabling ?
+* AQE - advantages and enabling ?Repartitioning, Broadcasting, Caching, Shuffle tuning
 * Garbage collection in memery management
 * is caching happens in all workwer nodes or executors ?
 * map method aand flat map method ?
@@ -104,3 +104,22 @@ also using sql tables and parquet filesn interanlly by the spark api's ?
 * data shuffling during the window functions?
 * range between in a window function
 * When processing a large dataset with multiple joins in Spark SQL, what optimization techniques should be considered? - Repartitioning, Broadcasting, Caching, Shuffle tuning
+* what is SerDe in spark
+* what is graph X
+* spark.dynamicAllocation.initialExecutors
+* dynamic scaling of the cluster with kubernates
+* What is the role of the DAG Scheduler in comparison to the Task Scheduler?
+* Serialization and deserialization and why and types ?
+* custom partitioning ?
+* In a high-availability setup for Spark on Kubernetes, how would a failure of a Spark driver or executor be handled differently compared to YARN?
+* How does Spark use Directed Acyclic Graph (DAG) in its task scheduling?
+* what is apache hudi, what is it used for ?
+* How does Spark use Directed Acyclic Graph (DAG) in its task scheduling?
+* Shuffle Buffer Size and Shuffle Buffer ?
+* excutor memory fraction ?
+* In what ways can Spark optimize read/write operations to HDFS compared to Hadoop MapReduce?
+* what hapopens at one task is completd in the executor nodes and driver nodes.
+* what happend to the dataframe when and action is called and where does the data go?
+* what is the AWS Spot inastances ?
+* 
+  
