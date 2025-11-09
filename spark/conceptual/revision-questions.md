@@ -137,6 +137,38 @@
 97. What does `next_day()` function do?
 98. How do you handle timezone conversions in Spark?
 
+### 3.6.1 Date & Time Intervals in Spark
+99. What are the two main interval families in Spark (YEAR-MONTH and DAY-TIME)?
+100. When do you use YEAR-MONTH interval vs DAY-TIME interval?
+101. Why can't you directly cast a day interval to a month interval?
+102. What is the common approximation used when converting between interval types?
+103. What is `make_interval()` function? What makes it unique?
+104. What parameters can you specify in `make_interval()`?
+105. When would you use `make_interval()` over other interval functions?
+106. What is `make_dt_interval()` function? What is its specific purpose?
+107. What units does `make_dt_interval()` handle?
+108. When would you use `make_dt_interval()` instead of `make_interval()`?
+109. What is `make_ym_interval()` function? What is its specific purpose?
+110. How does `make_ym_interval()` handle variable month lengths correctly?
+111. When would you use `make_ym_interval()` for calendar-based calculations?
+112. Compare `make_interval()` vs `make_dt_interval()` vs `make_ym_interval()` - when to use each?
+
+### 3.6.2 Date Parsing & Formatting
+113. What are the two main approaches to parsing dates in Spark SQL?
+114. What date format does default `DATE()` or `CAST AS DATE` reliably support?
+115. What happens when you use `DATE()` on non-ISO format strings?
+116. When must you use `TO_DATE(expr, format)` instead of `DATE()`?
+117. What format patterns are commonly used with `TO_DATE()`?
+118. Are format pattern letters case-sensitive in `TO_DATE()`? Provide examples.
+119. What is the difference between 'MM' and 'MMM' in date format patterns?
+120. What is the difference between 'd', 'dd', and 'D' in date format patterns?
+121. How does `DATE()` handle timestamp strings with time components?
+122. What does `TO_DATE()` return for unparseable strings?
+123. What are best practices for handling date formats in Spark pipelines?
+124. What is `to_char()` function used for?
+125. How do you use `to_timestamp()` with custom formats?
+126. What is the Java DateTimeFormatter pattern syntax used in Spark?
+
 ### 3.7 Aggregate Functions
 99. What is the difference between `sum()`, `sumDistinct()`, and `approx_count_distinct()`?
 100. When would you use `approx_count_distinct()` instead of `countDistinct()`?
@@ -164,22 +196,96 @@
 120. What does `shuffle()` do to array elements?
 121. How do you use `zip_with()` for element-wise array operations?
 
+### 3.8.1 Advanced Array Functions & Comparisons
+122. What is the difference between `size()` and `cardinality()` functions?
+123. Are `size()` and `cardinality()` functionally identical?
+124. When would you use `size()` vs `cardinality()` (personal preference)?
+125. What is the difference between `reverse()`, `sort_array()`, and `array_sort()`?
+126. What parameters does `reverse()` accept? What does it do?
+127. What parameters does `sort_array()` accept? How do you control sort order?
+128. What parameters does `array_sort()` accept? What makes it unique?
+129. Can you use custom sorting logic with `sort_array()`? What about `array_sort()`?
+130. When would you use `sort_array()` vs `array_sort()`?
+131. What does `aggregate()` function do on arrays?
+132. What parameters does `aggregate()` accept (start, merge, finish)?
+133. What is the difference between `aggregate()` and `reduce()` on arrays?
+134. Are `aggregate()` and `reduce()` functionally identical?
+135. Which name is SQL standard: `aggregate()` or `reduce()`?
+136. What does `concat()` do for arrays? Can it handle multiple arrays?
+137. What is the difference between `element_at()` and `try_element_at()`?
+138. What happens when `element_at()` tries to access a non-existent index?
+139. What does `try_element_at()` return for non-existent indices?
+140. When should you use `try_element_at()` instead of `element_at()`?
+141. What does `exists()` function do on arrays?
+142. What does `forall()` function do on arrays?
+143. What is the difference between `exists()` and `forall()`?
+144. Do `exists()` and `forall()` short-circuit? What does this mean?
+145. What does `filter()` function do on arrays?
+146. What is the difference between `filter()` and `exists()`?
+147. How is filtering arrays different from filtering DataFrames?
+148. What does `transform()` function do on arrays?
+149. What parameters does `transform()` lambda accept (element, index)?
+150. What does `arrays_zip()` function do?
+151. What does `zip_with()` function do?
+152. What is the difference between `arrays_zip()` and `zip_with()`?
+153. How many arrays can `arrays_zip()` handle?
+154. How many arrays can `zip_with()` handle?
+155. What output structure does `arrays_zip()` create?
+156. Can you customize the output with `arrays_zip()`?
+157. Does `zip_with()` require a lambda function?
+158. How do `arrays_zip()` and `zip_with()` handle arrays of different lengths?
+
 ### 3.9 Map Functions
-122. How do you create a map using `map()` function or `map_from_arrays()`?
-123. How do you access map values using `getItem()` or bracket notation?
-124. What does `map_keys()` and `map_values()` return?
-125. How do you use `map_concat()` to merge maps?
-126. What does `map_from_entries()` do?
-127. How do you explode maps using `explode()` - what columns does it create?
-128. What is `map_filter()` used for?
-129. How do you get the size of a map using `size()`?
+159. How do you create a map using `map()` function or `map_from_arrays()`?
+160. How do you access map values using `getItem()` or bracket notation?
+161. What does `map_keys()` and `map_values()` return?
+162. How do you use `map_concat()` to merge maps?
+163. What does `map_from_entries()` do?
+164. How do you explode maps using `explode()` - what columns does it create?
+165. What is `map_filter()` used for?
+166. How do you get the size of a map using `size()`?
+
+### 3.9.1 Map Functions Deep Dive & Comparisons
+167. What is the difference between `filter()` and `map_filter()`?
+168. What input types do `filter()` vs `map_filter()` accept?
+169. How many lambda parameters does `map_filter()` accept?
+170. What does `map_filter()` return?
+171. What does `transform()` do for arrays?
+172. What does `transform_keys()` do for maps?
+173. What does `transform_values()` do for maps?
+174. Compare `transform()` vs `transform_keys()` vs `transform_values()` - when to use each?
+175. What lambda parameters does `transform()` accept?
+176. What lambda parameters do `transform_keys()` and `transform_values()` accept?
+177. Does `transform()` change the size of an array?
+178. Does `transform_keys()` or `transform_values()` change the size of a map?
+179. What changes when you use `transform_keys()` - keys or values?
+180. What changes when you use `transform_values()` - keys or values?
+181. Can you use `size()` and `cardinality()` on maps?
+182. Does `element_at()` work on maps? How?
+183. Does `try_element_at()` work on maps?
 
 ### 3.10 Struct Functions
-130. How do you access struct fields using dot notation or `getField()`?
-131. What does `struct()` function do to create structs from columns?
-132. How do you flatten struct columns?
-133. Can you use `withColumn()` to modify a field within a struct?
-134. How do you select specific fields from a nested struct?
+184. How do you access struct fields using dot notation or `getField()`?
+185. What does `struct()` function do to create structs from columns?
+186. How do you flatten struct columns?
+187. Can you use `withColumn()` to modify a field within a struct?
+188. How do you select specific fields from a nested struct?
+
+### 3.10.1 Struct Deep Dive & Comparisons
+189. What is a Struct in Apache Spark?
+190. What is the purpose of using StructType in DataFrames?
+191. How do structs enable representation of nested or hierarchical data?
+192. What is the difference between `struct()` and `named_struct()`?
+193. How do you define field names in `named_struct()`?
+194. What field names does `struct()` generate by default?
+195. How do you access fields in a struct created with `named_struct()`?
+196. What happens to field names when using `struct()` with column names vs literals?
+197. When should you use `named_struct()` over `struct()`?
+198. When should you use `struct()` over `named_struct()`?
+199. What does the schema look like for `named_struct('city','value','state','value')`?
+200. What does the schema look like for `struct('value1', 'value2')`?
+201. Can you nest structs within structs?
+202. How do you access deeply nested struct fields?
 
 ### 3.11 Type Conversion & Casting
 135. How do you cast columns using `cast()` function?
@@ -188,17 +294,70 @@
 138. How do you handle casting errors gracefully?
 139. What does `try_cast()` do in Spark SQL?
 
+### 3.11.1 Numeric Type Casting Functions
+140. What is `tinyint()` function and what data type does it cast to?
+141. What is `smallint()` function and when would you use it?
+142. What is the difference between `int()` and `bigint()` casting?
+143. When should you use `tinyint` vs `smallint` vs `int` vs `bigint`?
+144. What are the value ranges for tinyint, smallint, int, and bigint?
+
+### 3.11.2 Other Specific Casting Functions
+145. What does `binary()` function do?
+146. What is `boolean()` casting function used for?
+147. How do you use `date()` function for type casting?
+148. What does `decimal()` function do?
+149. What is the difference between `double()` and `float()` casting?
+150. What does `string()` function do for type conversion?
+151. How do you use `timestamp()` function?
+
+### 3.11.3 Type Conversion (to_ Functions)
+152. What is `to_char()` function? What does it convert from and to?
+153. What is `to_varchar()` function used for?
+154. What does `to_number()` function do? When do you use it?
+155. What is the difference between `to_date()` and `date()` casting?
+156. What is the difference between `to_timestamp()` and `timestamp()` casting?
+157. What does `to_json()` function do? What data types can it convert?
+158. What is `to_binary()` function used for?
+159. When would you use `to_` functions vs direct casting with `cast()`?
+
+### 3.11.4 FLOAT vs DOUBLE vs DECIMAL
+160. What is the precision difference between FLOAT, DOUBLE, and DECIMAL?
+161. How much storage does each numeric type use (FLOAT, DOUBLE, DECIMAL)?
+162. What types of arithmetic do FLOAT and DOUBLE use (approximate vs exact)?
+163. Do FLOAT and DOUBLE have rounding errors? What about DECIMAL?
+164. Which numeric type is fastest for computations?
+165. When should you use FLOAT or DOUBLE for data processing?
+166. When should you ALWAYS use DECIMAL instead of FLOAT/DOUBLE?
+167. Why is DECIMAL the only choice for financial and monetary data?
+168. What is the maximum precision supported by DECIMAL in Spark?
+169. What are the performance trade-offs between DECIMAL and FLOAT/DOUBLE?
+170. Provide examples where using FLOAT/DOUBLE would cause problems in financial calculations.
+
 ### 3.12 Null Handling & Data Cleaning
-140. What is the difference between `dropna()` and `fillna()`?
-141. How do you drop rows with nulls in specific columns using `dropna(subset=[])`?
-142. What are the different threshold options in `dropna()`?
-143. How do you fill nulls with different values for different columns?
-144. What does `na.replace()` do?
-145. How do you use `isNull()` and `isNotNull()` for filtering?
-146. What is `nanvl()` used for (NaN value handling)?
-147. How do you distinguish between null and NaN in Spark?
-148. What does `dropDuplicates()` do? How do you specify subset of columns?
-149. Does `dropDuplicates()` preserve the order of rows?
+171. What is the difference between `dropna()` and `fillna()`?
+172. How do you drop rows with nulls in specific columns using `dropna(subset=[])`?
+173. What are the different threshold options in `dropna()`?
+174. How do you fill nulls with different values for different columns?
+175. What does `na.replace()` do?
+176. How do you use `isNull()` and `isNotNull()` for filtering?
+177. What is `nanvl()` used for (NaN value handling)?
+178. How do you distinguish between null and NaN in Spark?
+179. What does `dropDuplicates()` do? How do you specify subset of columns?
+180. Does `dropDuplicates()` preserve the order of rows?
+
+### 3.12.1 COALESCE, NVL, and NVL2 Functions
+181. What does `COALESCE()` function do?
+182. How many arguments can `COALESCE()` accept?
+183. What does `NVL()` function do? How is it different from `COALESCE()`?
+184. How many arguments does `NVL()` accept?
+185. What does `NVL2()` function do?
+186. What are the three arguments in `NVL2()` and what do they represent?
+187. Compare `COALESCE()` vs `NVL()` vs `NVL2()` - when to use each?
+188. Is `NVL()` a SQL standard function or Oracle compatibility function?
+189. Can you use `COALESCE()` with more than 2 arguments? Provide an example.
+190. What does `NVL2(NULL, 'Y', 'N')` return?
+191. What does `NVL(NULL, 'X')` return?
+192. How would you replicate `NVL2()` behavior using `CASE WHEN`?
 
 ### 3.13 Column Expressions & SQL Functions
 150. What is the difference between using column names as strings vs Column objects (col(), F.col())?
@@ -700,14 +859,86 @@
 390. Can you read accumulator values inside transformations? Why or why not?
 391. What happens to accumulator values if a task fails and retries?
 
-### 18.2 Spark Data Types - Collections & Complex Types
-392. How do you work with nested data structures in Spark?
-393. What are the performance implications of deeply nested schemas?
-394. How do you flatten nested structures?
-395. When should you denormalize data vs keep it normalized in Spark?
-396. How do you handle schema evolution with complex types?
+### 18.2 Spark Collections - Overview & Fundamentals
+203. What are collections in Apache Spark?
+204. What are the two main collection types in Spark (ArrayType and MapType)?
+205. What is ArrayType? What kind of data does it store?
+206. What is MapType? What kind of data does it store?
+207. Are Structs considered collections in Spark? Why or why not?
+208. What collection functions work on Arrays?
+209. What collection functions work on Maps?
+210. Do collection functions work on Structs?
+211. What is the purpose of using collections in DataFrames?
+212. How do collections enable efficient management of semi-structured data?
 
-### 18.3 Common Gotchas & Best Practices
+### 18.2.1 Map vs Struct - Critical Comparison
+213. What is the key difference between StructType and MapType?
+214. Are field names in Structs fixed or dynamic?
+215. Are keys in Maps fixed or dynamic?
+216. When are field names in Structs defined?
+217. Can different rows in a Map column have different keys?
+218. How do you access a Struct field?
+219. How do you access a Map value?
+220. When should you use Structs over Maps?
+221. When should you use Maps over Structs?
+222. Do Struct fields have a fixed order?
+223. Is key order guaranteed in Maps?
+224. Provide an example use case for Structs.
+225. Provide an example use case for Maps.
+226. What happens when you know all attributes upfront - Struct or Map?
+227. What happens when keys are variable or semi-structured - Struct or Map?
+228. Can you have optional fields in Structs?
+229. Can you have optional keys in Maps?
+230. Compare schema rigidity: Struct vs Map.
+
+### 18.2.2 Array vs Map - Comparison
+231. What is the key difference between ArrayType and MapType?
+232. Does ArrayType maintain order?
+233. Is order guaranteed in MapType?
+234. What is ArrayType best used for?
+235. What is MapType best used for?
+236. Can array elements be of different types?
+237. Can map values be of different types?
+238. How do you access array elements by position?
+239. How do you access map values by key?
+
+### 18.2.3 Comprehensive Collection Functions Reference Table Questions
+240. Which functions return the number of elements in a collection?
+241. What collections support `size()` and `cardinality()`?
+242. What is the difference between `reverse()`, `sort_array()`, and `array_sort()` in terms of purpose?
+243. Which sorting function allows custom comparator logic?
+244. What is the SQL standard name for array reduction: `aggregate()` or `reduce()`?
+245. What does `concat()` do and does it support multiple arrays?
+246. What is the difference between `element_at()` and `try_element_at()` in error handling?
+247. Which function checks if AT LEAST ONE element matches a condition?
+248. Which function checks if ALL elements match a condition?
+249. Do `exists()` and `forall()` short-circuit? What does this mean for performance?
+250. What is the difference between `filter()` (for arrays) and `map_filter()` (for maps)?
+251. How many lambda parameters does `map_filter()` require?
+252. What does `transform()` work on - Arrays or Maps?
+253. What does `transform_keys()` work on - Arrays or Maps?
+254. What does `transform_values()` work on - Arrays or Maps?
+255. How many arrays does `arrays_zip()` support?
+256. How many arrays does `zip_with()` support?
+257. What output structure does `arrays_zip()` create?
+258. Does `zip_with()` require a lambda function?
+259. What happens to shorter arrays when using `arrays_zip()` or `zip_with()`?
+260. Which collection functions support both Arrays and Maps?
+261. Which functions are functionally identical pairs (have same behavior)?
+262. What is the purpose of having both `size()` and `cardinality()` if they're identical?
+263. What is the purpose of having both `aggregate()` and `reduce()` if they're identical?
+
+### 18.2.4 Advanced Collection Operations & Nested Data
+264. How do you work with nested data structures in Spark?
+265. What are the performance implications of deeply nested schemas?
+266. How do you flatten nested structures?
+267. When should you denormalize data vs keep it normalized in Spark?
+268. How do you handle schema evolution with complex types?
+269. Can you have arrays of structs?
+270. Can you have maps of arrays?
+271. Can you have arrays of maps?
+272. How do you query nested arrays of structs?
+273. What is the performance impact of deeply nested collections?
 397. What is the "out of memory" error and common causes in Spark?
 398. Why do you get "Task not serializable" errors? How do you fix them?
 399. What causes "Stage X has Y failed attempts" and how do you debug it?
@@ -720,43 +951,43 @@
 406. What happens when you mix transformation logic with actions improperly?
 
 ### 18.4 DataFrame vs SQL - When to Use What
-407. When should you use DataFrame API vs Spark SQL?
-408. Can you mix DataFrame API and SQL in the same application?
-409. How do you register a DataFrame as a temporary view?
-410. What is the difference between `createTempView()` and `createGlobalTempView()`?
-411. How does performance compare between DataFrame API and SQL?
-412. Are there operations easier to express in SQL vs DataFrame API?
+284. When should you use DataFrame API vs Spark SQL?
+285. Can you mix DataFrame API and SQL in the same application?
+286. How do you register a DataFrame as a temporary view?
+287. What is the difference between `createTempView()` and `createGlobalTempView()`?
+288. How does performance compare between DataFrame API and SQL?
+289. Are there operations easier to express in SQL vs DataFrame API?
 
 ### 18.5 Data Sampling & Debugging
-413. How do you use `sample()` for testing on subset of data?
-414. What does `sample(withReplacement, fraction, seed)` mean?
-415. What is stratified sampling using `sampleBy()`?
-416. How do you use `limit()` for quick data inspection?
-417. What does `show(n, truncate)` do? What are the parameters?
-418. How do you use `printSchema()` for debugging?
-419. What does `explain()` show? How do you read the physical plan?
-420. What does `explain(extended=True)` reveal?
+290. How do you use `sample()` for testing on subset of data?
+291. What does `sample(withReplacement, fraction, seed)` mean?
+292. What is stratified sampling using `sampleBy()`?
+293. How do you use `limit()` for quick data inspection?
+294. What does `show(n, truncate)` do? What are the parameters?
+295. How do you use `printSchema()` for debugging?
+296. What does `explain()` show? How do you read the physical plan?
+297. What does `explain(extended=True)` reveal?
 
 ### 18.6 Type Safety & Datasets (Scala/Java)
-421. What is the difference between DataFrame and Dataset in Spark?
-422. What are the advantages of type safety in Datasets?
-423. When would you use Dataset over DataFrame?
-424. What is the performance cost of Datasets vs DataFrames?
-425. How does the encoder work in Datasets?
+298. What is the difference between DataFrame and Dataset in Spark?
+299. What are the advantages of type safety in Datasets?
+300. When would you use Dataset over DataFrame?
+301. What is the performance cost of Datasets vs DataFrames?
+302. How does the encoder work in Datasets?
 
 ### 18.7 Miscellaneous Important Questions
-426. What is the relationship between Spark SQL engine, Catalyst optimizer, and Tungsten engine?
-427. How do DataFrame API and RDD API differ in their relationship to SparkSession vs SparkContext?
-428. What is the difference between client libraries (PySpark, Spark Scala, Spark Java, SparkR)?
-429. How does PySpark communicate with JVM (Py4J)?
-430. What are the performance implications of using PySpark vs Scala Spark?
-431. When would you drop down to RDD API from DataFrame API?
-432. How do you convert between RDD and DataFrame?
-433. What is the cost of `collect()` in terms of network and memory?
-434. How do you handle timezone-aware timestamp operations?
-435. What is the difference between `current_timestamp()` and `now()`?
-436. How do you generate surrogate keys in distributed systems?
-437. What is `uuid()` function used for?
-438. How do you handle slowly changing dimensions (SCD) in Spark?
-439. What are best practices for handling PII (Personally Identifiable Information) in Spark?
-440. How do you implement data quality checks in Spark pipelines?
+303. What is the relationship between Spark SQL engine, Catalyst optimizer, and Tungsten engine?
+304. How do DataFrame API and RDD API differ in their relationship to SparkSession vs SparkContext?
+305. What is the difference between client libraries (PySpark, Spark Scala, Spark Java, SparkR)?
+306. How does PySpark communicate with JVM (Py4J)?
+307. What are the performance implications of using PySpark vs Scala Spark?
+308. When would you drop down to RDD API from DataFrame API?
+309. How do you convert between RDD and DataFrame?
+310. What is the cost of `collect()` in terms of network and memory?
+311. How do you handle timezone-aware timestamp operations?
+312. What is the difference between `current_timestamp()` and `now()`?
+313. How do you generate surrogate keys in distributed systems?
+314. What is `uuid()` function used for?
+315. How do you handle slowly changing dimensions (SCD) in Spark?
+316. What are best practices for handling PII (Personally Identifiable Information) in Spark?
+317. How do you implement data quality checks in Spark pipelines?
