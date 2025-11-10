@@ -1,311 +1,4 @@
-## 6. Data Sources & I/O Operations
-
-### 6.1 Reading Data - Basics
-831. What is the difference between `spark.read.table()` and `spark.read.parquet()`?
-832. What does the `read.option('samplingRatio', 'true')` do during schema inference?
-833. What is the `option('dateFormat', 'fmt')` used for? What are common date format patterns?
-834. How do you handle corrupted or malformed rows when reading CSV files?
-835. How do you achieve parallelism when reading from non-partitioned data files?
-836. What are the different Spark data sources and sinks available?
-837. What is the findspark library and when do you use it?
-
-### 6.1.0 Pandas vs Spark File Reading - Core Differences
-838. What is the fundamental difference between Pandas and Spark file reading?
-839. What processing model does Pandas use - single-machine or distributed?
-840. What processing model does Spark use - single-machine or distributed?
-841. Can Pandas read files directly from HTTP/HTTPS URLs?
-842. Can Spark read files directly from HTTP/HTTPS URLs?
-843. Why doesn't Spark support reading from HTTP/HTTPS URLs directly?
-844. What would happen if each Spark executor downloaded from HTTP independently?
-845. What problem does independent HTTP downloading cause for data consistency?
-846. Does HTTP URL reading violate distributed computing principles? Why?
-847. What file systems does Spark support for distributed reading?
-848. Can Spark read from local file systems? What is the requirement?
-849. Can Spark read from HDFS (Hadoop Distributed File System)?
-850. Can Spark read from AWS S3?
-851. Can Spark read from Google Cloud Storage?
-852. Can Spark read from Azure Blob Storage?
-853. What are the three workarounds for reading HTTP URLs in Spark?
-854. How do you use the "download then read" workaround for HTTP URLs?
-855. How do you use the "Pandas bridge" workaround for HTTP URLs?
-856. How do you use the "manual download" workaround for HTTP URLs?
-857. Why does Spark require distributed storage where all executors can access the same data?
-858. What is the key principle: coordinated access for parallel processing?
-859. Do all worker nodes need access to the file in Spark?
-860. Does Pandas require worker access to files?
-861. What is the core requirement for Spark file reading: any accessible path or distributed storage?
-
-### 6.1.1 CSV Reading Options & Gotchas
-862. What does `option('header', 'true')` do when reading CSV files?
-863. What is `option('inferSchema', 'true')` and what are its performance implications?
-864. How do you specify custom delimiters using `option('sep', ',')`?
-865. What does `option('quote', '"')` control?
-866. How do you handle multi-line records using `option('multiLine', 'true')`?
-867. What does `option('escape', '\\')` do?
-868. What is `option('nullValue', 'NULL')` used for?
-869. How does `option('mode', 'PERMISSIVE')` differ from 'DROPMALFORMED' and 'FAILFAST'?
-870. What is `option('columnNameOfCorruptRecord', '_corrupt_record')` used for?
-871. How do you handle files with different encodings using `option('encoding', 'UTF-8')`?
-872. What does `option('ignoreLeadingWhiteSpace', 'true')` and `option('ignoreTrailingWhiteSpace', 'true')` do?
-873. Why might you get different results with `inferSchema=true` on partial data?
-
-### 6.1.2 JSON Reading Options
-874. What is `option('multiLine', 'true')` important for when reading JSON?
-875. How does JSON schema inference work differently from CSV?
-876. What does `option('primitivesAsString', 'true')` do?
-877. How do you handle JSON files with inconsistent schemas?
-
-### 6.1.3 Parquet Reading Options
-878. Does Parquet require schema inference? Why or why not?
-879. What is `option('mergeSchema', 'true')` used for in Parquet?
-880. How does Parquet handle predicate pushdown?
-881. What are the advantages of columnar storage in Parquet for read performance?
-
-### 6.1.4 ORC & Avro Reading
-882. How does ORC compare to Parquet for read performance?
-883. What is Avro's advantage for schema evolution?
-884. When would you choose ORC over Parquet?
-
-### 6.1.5 JDBC Reading Options
-885. How do you read from JDBC sources?
-886. What is `option('partitionColumn', 'id')` used for in JDBC reads?
-887. How do you specify `lowerBound`, `upperBound`, and `numPartitions` for parallel JDBC reads?
-888. What does `option('fetchsize', '1000')` control?
-889. What are the performance implications of JDBC reads without proper partitioning?
-
-### 6.2 Writing Data - Basics & Options
-890. What is the Sink API in Spark?
-891. What does `maxRecordsPerFile` control when writing DataFrames?
-892. How do you estimate appropriate values for `maxRecordsPerFile`?
-893. What are reasonable file sizes for Spark write operations in production?
-894. Why might the number of DataFrame partitions not match the number of output file partitions?
-895. Can DataFrame partitions be empty? What impact does this have on output files?
-896. What are .crc files in Spark output directories and what is their purpose?
-
-### 6.2.0 DataFrameWriter vs DataFrameWriterV2 - Architectural Evolution
-
-#### 6.2.0.1 Core Architecture
-897. What is DataFrameWriter (V1) built on?
-898. What is DataFrameWriterV2 (V2) built on?
-899. What is the DataSource V1 API?
-900. What is the DataSource V2 API?
-901. What type of architecture does V1 have - monolithic or pluggable?
-902. What type of architecture does V2 have - monolithic or pluggable?
-903. Is V1 tightly coupled or loosely coupled with Spark's SQL engine?
-904. What was V1 originally designed for - cloud storage or HDFS/relational databases?
-905. What was V2 designed for - legacy systems or cloud-native environments?
-
-#### 6.2.0.2 Design Philosophy
-906. What is V1's design approach - "one size fits all" or "extensible framework"?
-907. What is V2's design approach - "one size fits all" or "extensible framework"?
-908. Does V1 have a fixed or customizable write execution pattern?
-909. Does V2 have a fixed or customizable write execution pattern?
-910. Are batch and streaming treated as separate or unified in V1?
-911. Are batch and streaming treated as separate or unified in V2?
-912. What type of commit protocols does V1 use - file-system oriented or transaction-aware?
-913. What type of commit protocols does V2 use - file-system oriented or transaction-aware?
-
-#### 6.2.0.3 V1 Technical Limitations
-914. Does V1 support atomic commits on cloud object stores?
-915. Does V1 have transaction boundaries for partial failures?
-916. What are the corruption risks in V1 during job failures?
-917. Are V1 recovery mechanisms limited or extensive?
-918. Is V1's execution model a black box or transparent?
-919. Is it easy or difficult to implement custom data sources in V1?
-920. Does V1 have limited or extensive push-down capability?
-921. Are V1 interface contracts rigid or flexible?
-922. Does V1 have fine-grained or coarse-grained overwrite behavior?
-923. How well does V1 integrate with catalog systems?
-924. Does V1 have limited or extensive schema evolution support?
-925. Are V1's data distribution controls basic or advanced?
-
-#### 6.2.0.4 V2 Architectural Solutions
-926. Does V2 support pluggable commit protocols?
-927. Does V2 support ACID transaction guarantees?
-928. Does V2 provide atomic operation guarantees?
-929. Does V2 have recovery and rollback capabilities?
-930. Does V2 have clean interfaces for custom implementations?
-931. Does V2 have an operation push-down framework?
-932. Can you customize write optimization in V2?
-933. Does V2 provide unified batch and streaming APIs?
-934. Does V2 have fine-grained data distribution controls?
-935. Does V2 support advanced partitioning strategies?
-936. Does V2 have integrated catalog management?
-937. Does V2 support native schema evolution?
-
-#### 6.2.0.5 Key Differentiators
-938. What execution model does V1 use - fixed pipeline or customizable pipeline?
-939. What execution model does V2 use - fixed pipeline or customizable pipeline?
-940. Does V1 support planning-time optimizations or only runtime optimizations?
-941. Does V2 support both planning-time and runtime optimizations?
-942. Is V1 connector development simple or complex?
-943. Is V2 connector development simple or complex?
-944. Does V1 require deep Spark internals knowledge for connector development?
-945. Does V2 have well-defined interfaces for connector development?
-946. Was V1 adapted to cloud storage or designed for it?
-947. Was V2 adapted to cloud storage or designed for it from inception?
-948. Does V1 have basic or native integration with modern table formats (Iceberg, Delta, Hudi)?
-949. Does V2 have basic or native integration with modern table formats?
-
-#### 6.2.0.6 Evolution Context
-950. What does V1 represent - Spark's origins or Spark's maturity?
-951. What does V2 represent - Spark's origins or Spark's maturity?
-952. Was V1 born from academic/early internet scale or cloud-native reality?
-953. What was V1's primary focus - HDFS/traditional databases or diverse ecosystems?
-954. What was V1's processing primacy - batch or streaming?
-955. What was V1's deployment model - single data center or global scale?
-956. Is V2 designed for cloud-native, hybrid cloud, or single data center?
-957. Does V2 unify streaming and batch or treat them separately?
-958. Is V2 designed for single deployment or global scale deployment?
-959. Does V2 focus on single ecosystem or diverse data ecosystem integration?
-
-#### 6.2.0.7 Practical Implications
-960. Is V1 sufficient for basic ETL and analytics?
-961. Is V2 necessary for production-grade, reliable pipelines?
-962. Should platform developers focus on V1 for innovation or maintenance?
-963. Should platform developers focus on V2 for innovation or ecosystem expansion?
-964. Should organizations use V1 for new projects or legacy maintenance?
-965. Should organizations use V2 as a future-proof foundation?
-
-#### 6.2.0.8 Strategic Direction
-966. Is V1 in active development or maintenance mode?
-967. Is V2 in active development or maintenance mode?
-968. Does V1 receive new feature development?
-969. Does V2 receive new feature development?
-970. What is V1's status - critical bug fixes only or new features?
-971. What is V2's status - maintenance or active development focus?
-972. Is V1 on a gradual deprecation path?
-973. Is V2 the focus for ecosystem expansion?
-974. Is V2 the priority for performance optimization?
-
-#### 6.2.0.9 Summary & Conclusion
-975. Does the V1 to V2 transition represent an API version increment or architectural shift?
-976. What did V1 address - initial scale challenges or modern reliability requirements?
-977. What does V2 address - initial scale or reliability/extensibility/operational requirements?
-978. Is V2 designed for cloud-native environments?
-979. Does V2 maintain backward compatibility for existing workloads?
-980. Is V2 fundamental for Spark to remain relevant in evolving data ecosystems?
-
-### 6.2.1 Write Modes - Comprehensive Analysis
-981. What are the four available write modes in PySpark?
-982. What does 'overwrite' mode do?
-983. What does 'append' mode do?
-984. What does 'ignore' mode do?
-985. What does 'error' or 'errorifexists' mode do?
-986. What is the default write mode in Spark?
-
-#### 6.2.1.1 Write Modes - Behavior Analysis
-987. What happens with 'overwrite' mode when target exists?
-988. What happens with 'overwrite' mode when target doesn't exist?
-989. What happens with 'append' mode when target exists?
-990. What happens with 'append' mode when target doesn't exist?
-991. What happens with 'ignore' mode when target exists?
-992. What happens with 'ignore' mode when target doesn't exist?
-993. What happens with 'errorifexists' mode when target exists?
-994. What happens with 'errorifexists' mode when target doesn't exist?
-
-#### 6.2.1.2 Write Modes - Use Cases
-995. What are common use cases for 'overwrite' mode?
-996. What are common use cases for 'append' mode?
-997. What are common use cases for 'ignore' mode?
-998. What are common use cases for 'errorifexists' mode?
-999. When would you use 'overwrite' for full refreshes?
-1000. When would you use 'append' for incremental loads?
-1001. When would you use 'ignore' for safe initialization?
-1002. When would you use 'errorifexists' for safety default?
-
-#### 6.2.1.3 Write Modes - Risk & Performance
-1003. What is the risk level of 'overwrite' mode - high, medium, or low?
-1004. What is the risk level of 'append' mode - high, medium, or low?
-1005. What is the risk level of 'ignore' mode - high, medium, or low?
-1006. What is the risk level of 'errorifexists' mode - high, medium, or low?
-1007. Which write mode is safest for data protection?
-1008. Which write mode is riskiest for accidental data loss?
-1009. What is the performance characteristic of 'ignore' when skipping?
-1010. What is the performance characteristic of 'overwrite' for large datasets?
-1011. What is the performance characteristic of 'append' mode?
-
-#### 6.2.1.4 Write Modes - Best Practices
-1012. What write mode should you use in development for testing?
-1013. What write mode should you use in production for incremental loads?
-1014. What write mode should you use in production for safety?
-1015. What write mode should you use for initialization/first-time setup?
-1016. What write mode prevents accidental overwrites?
-
-### 6.3 Partitioning During Writes
-
-#### 6.3.1 partitionBy vs bucketBy vs sortBy - Core Concepts
-1017. What is `partitionBy()` - physical or logical separation?
-1018. What is `bucketBy()` - physical or logical separation?
-1019. What is `sortBy()` - separation or ordering?
-1020. What does `partitionBy()` create on storage - folders or files?
-1021. What does `bucketBy()` create on storage - folders or files?
-1022. What does `sortBy()` create on storage - folders, files, or nothing?
-1023. Can you SEE `partitionBy()` separation in file explorer?
-1024. Can you SEE `bucketBy()` separation in file explorer?
-1025. Can you SEE `sortBy()` separation in file explorer?
-1026. What is the structure created by `partitionBy()` - example with country?
-1027. What is the structure created by `bucketBy()` - example with user_id?
-1028. What is the structure created by `sortBy()` - example with timestamp?
-
-#### 6.3.2 Analogies for Understanding
-1029. What is the analogy for `partitionBy()` - library with separate rooms?
-1030. What is the analogy for `bucketBy()` - single room with numbered shelves?
-1031. What is the analogy for `sortBy()` - books arranged alphabetically?
-
-#### 6.3.3 Availability Matrix - Format Support
-1032. Does CSV support `partitionBy()`?
-1033. Does CSV support `bucketBy()`?
-1034. Does CSV support `sortBy()`?
-1035. Does JSON support `partitionBy()`?
-1036. Does JSON support `bucketBy()`?
-1037. Does JSON support `sortBy()`?
-1038. Does Parquet/ORC support `partitionBy()`?
-1039. Does Parquet/ORC support `bucketBy()`?
-1040. Does Parquet/ORC support `sortBy()`?
-1041. Does JDBC support `partitionBy()`?
-1042. Does JDBC support `bucketBy()`?
-1043. Does JDBC support `sortBy()`?
-1044. Does `saveAsTable` support `partitionBy()`?
-1045. Does `saveAsTable` support `bucketBy()`?
-1046. Does `saveAsTable` support `sortBy()`?
-1047. Which write method is the ONLY one that supports `bucketBy()`?
-1048. Which write method is the ONLY one that supports `sortBy()`?
-1049. Which write method supports all three: `partitionBy()`, `bucketBy()`, and `sortBy()`?
-
-#### 6.3.4 Detailed Comparison
-1050. What separation level does `partitionBy()` operate at - directory, file, or row?
-1051. What separation level does `bucketBy()` operate at - directory, file, or row?
-1052. What separation level does `sortBy()` operate at - directory, file, or row?
-1053. Is `partitionBy()` visible in the file system?
-1054. Is `bucketBy()` visible in the file system?
-1055. Is `sortBy()` visible in the file system?
-1056. How do you access data with `partitionBy()` - direct folder navigation?
-1057. How do you access data with `bucketBy()` - hash calculation?
-1058. How do you access data with `sortBy()` - sequential scanning?
-1059. What is the optimal use case for `partitionBy()` - low or high cardinality?
-1060. What is the optimal use case for `bucketBy()` - low or high cardinality?
-1061. What is the optimal use case for `sortBy()` - specific access pattern?
-1062. What performance benefit does `partitionBy()` provide?
-1063. What performance benefit does `bucketBy()` provide?
-1064. What performance benefit does `sortBy()` provide?
-1065. How does `partitionBy()` impact file organization - multiple folders?
-1066. How does `bucketBy()` impact file organization - fixed files in one folder?
-1067. How does `sortBy()` impact file organization - same files, sorted internally?
-
-#### 6.3.5 When to Use Each Method
-1068. When should you use `partitionBy()` - clear categories like country/year?
-1069. When should you use `partitionBy()` - frequent filtering by categories?
-1070. When should you use `partitionBy()` - data lifecycle management?
-1071. What formats work with `partitionBy()` - files or tables or both?
-1072. When should you use `bucketBy()` - high-cardinality columns?
-1073. When should you use `bucketBy()` - frequently joined tables?
-1074. When should you use `bucketBy()` - need even data distribution?
-1075. What formats work with `bucketBy()` - files or tables?
-1076. When should you use `sortBy()` - range queries (BETWEEN, >, <)?
-1077. When should you use `sortBy()` - natural ordering (timestamps)?
-1078. When should you use `sortBy()` - better compression?
-1079. What formats work with `sortBy()` - files or ta# Apache Spark Interview Questions - Comprehensive Guide (Expanded Edition)
+# Apache Spark Interview Questions - Comprehensive Guide (Expanded Edition)
 
 ## 1. Spark Architecture & Core Concepts
 
@@ -1285,71 +978,427 @@
 836. What are the different Spark data sources and sinks available?
 837. What is the findspark library and when do you use it?
 
+### 6.1.0 Pandas vs Spark File Reading - Core Differences
+838. What is the fundamental difference between Pandas and Spark file reading?
+839. What processing model does Pandas use - single-machine or distributed?
+840. What processing model does Spark use - single-machine or distributed?
+841. Can Pandas read files directly from HTTP/HTTPS URLs?
+842. Can Spark read files directly from HTTP/HTTPS URLs?
+843. Why doesn't Spark support reading from HTTP/HTTPS URLs directly?
+844. What would happen if each Spark executor downloaded from HTTP independently?
+845. What problem does independent HTTP downloading cause for data consistency?
+846. Does HTTP URL reading violate distributed computing principles? Why?
+847. What file systems does Spark support for distributed reading?
+848. Can Spark read from local file systems? What is the requirement?
+849. Can Spark read from HDFS (Hadoop Distributed File System)?
+850. Can Spark read from AWS S3?
+851. Can Spark read from Google Cloud Storage?
+852. Can Spark read from Azure Blob Storage?
+853. What are the three workarounds for reading HTTP URLs in Spark?
+854. How do you use the "download then read" workaround for HTTP URLs?
+855. How do you use the "Pandas bridge" workaround for HTTP URLs?
+856. How do you use the "manual download" workaround for HTTP URLs?
+857. Why does Spark require distributed storage where all executors can access the same data?
+858. What is the key principle: coordinated access for parallel processing?
+859. Do all worker nodes need access to the file in Spark?
+860. Does Pandas require worker access to files?
+861. What is the core requirement for Spark file reading: any accessible path or distributed storage?
+
 ### 6.1.1 CSV Reading Options & Gotchas
-838. What does `option('header', 'true')` do when reading CSV files?
-839. What is `option('inferSchema', 'true')` and what are its performance implications?
-840. How do you specify custom delimiters using `option('sep', ',')`?
-841. What does `option('quote', '"')` control?
-842. How do you handle multi-line records using `option('multiLine', 'true')`?
-843. What does `option('escape', '\\')` do?
-844. What is `option('nullValue', 'NULL')` used for?
-845. How does `option('mode', 'PERMISSIVE')` differ from 'DROPMALFORMED' and 'FAILFAST'?
-846. What is `option('columnNameOfCorruptRecord', '_corrupt_record')` used for?
-847. How do you handle files with different encodings using `option('encoding', 'UTF-8')`?
-848. What does `option('ignoreLeadingWhiteSpace', 'true')` and `option('ignoreTrailingWhiteSpace', 'true')` do?
-849. Why might you get different results with `inferSchema=true` on partial data?
+862. What does `option('header', 'true')` do when reading CSV files?
+863. What is `option('inferSchema', 'true')` and what are its performance implications?
+864. How do you specify custom delimiters using `option('sep', ',')`?
+865. What does `option('quote', '"')` control?
+866. How do you handle multi-line records using `option('multiLine', 'true')`?
+867. What does `option('escape', '\\')` do?
+868. What is `option('nullValue', 'NULL')` used for?
+869. How does `option('mode', 'PERMISSIVE')` differ from 'DROPMALFORMED' and 'FAILFAST'?
+870. What is `option('columnNameOfCorruptRecord', '_corrupt_record')` used for?
+871. How do you handle files with different encodings using `option('encoding', 'UTF-8')`?
+872. What does `option('ignoreLeadingWhiteSpace', 'true')` and `option('ignoreTrailingWhiteSpace', 'true')` do?
+873. Why might you get different results with `inferSchema=true` on partial data?
 
 ### 6.1.2 JSON Reading Options
-850. What is `option('multiLine', 'true')` important for when reading JSON?
-851. How does JSON schema inference work differently from CSV?
-852. What does `option('primitivesAsString', 'true')` do?
-853. How do you handle JSON files with inconsistent schemas?
+874. What is `option('multiLine', 'true')` important for when reading JSON?
+875. How does JSON schema inference work differently from CSV?
+876. What does `option('primitivesAsString', 'true')` do?
+877. How do you handle JSON files with inconsistent schemas?
 
 ### 6.1.3 Parquet Reading Options
-854. Does Parquet require schema inference? Why or why not?
-855. What is `option('mergeSchema', 'true')` used for in Parquet?
-856. How does Parquet handle predicate pushdown?
-857. What are the advantages of columnar storage in Parquet for read performance?
+878. Does Parquet require schema inference? Why or why not?
+879. What is `option('mergeSchema', 'true')` used for in Parquet?
+880. How does Parquet handle predicate pushdown?
+881. What are the advantages of columnar storage in Parquet for read performance?
 
 ### 6.1.4 ORC & Avro Reading
-858. How does ORC compare to Parquet for read performance?
-859. What is Avro's advantage for schema evolution?
-860. When would you choose ORC over Parquet?
+882. How does ORC compare to Parquet for read performance?
+883. What is Avro's advantage for schema evolution?
+884. When would you choose ORC over Parquet?
 
 ### 6.1.5 JDBC Reading Options
-861. How do you read from JDBC sources?
-862. What is `option('partitionColumn', 'id')` used for in JDBC reads?
-863. How do you specify `lowerBound`, `upperBound`, and `numPartitions` for parallel JDBC reads?
-864. What does `option('fetchsize', '1000')` control?
-865. What are the performance implications of JDBC reads without proper partitioning?
+885. How do you read from JDBC sources?
+886. What is `option('partitionColumn', 'id')` used for in JDBC reads?
+887. How do you specify `lowerBound`, `upperBound`, and `numPartitions` for parallel JDBC reads?
+888. What does `option('fetchsize', '1000')` control?
+889. What are the performance implications of JDBC reads without proper partitioning?
 
 ### 6.2 Writing Data - Basics & Options
-866. What is the Sink API in Spark?
-867. What does `maxRecordsPerFile` control when writing DataFrames?
-868. How do you estimate appropriate values for `maxRecordsPerFile`?
-869. What are reasonable file sizes for Spark write operations in production?
-870. Why might the number of DataFrame partitions not match the number of output file partitions?
-871. Can DataFrame partitions be empty? What impact does this have on output files?
-872. What are .crc files in Spark output directories and what is their purpose?
+890. What is the Sink API in Spark?
+891. What does `maxRecordsPerFile` control when writing DataFrames?
+892. How do you estimate appropriate values for `maxRecordsPerFile`?
+893. What are reasonable file sizes for Spark write operations in production?
+894. Why might the number of DataFrame partitions not match the number of output file partitions?
+895. Can DataFrame partitions be empty? What impact does this have on output files?
+896. What are .crc files in Spark output directories and what is their purpose?
 
-### 6.2.1 Write Modes
-873. What are the different save modes: append, overwrite, errorIfExists, ignore?
-874. What happens if you use 'overwrite' mode - does it delete the entire directory or just data files?
-875. What is the difference between static and dynamic overwrite modes?
-876. How do you enable dynamic partition overwrite?
-877. What are the risks of using 'overwrite' mode in production?
+### 6.2.0 DataFrameWriter vs DataFrameWriterV2 - Architectural Evolution
 
-### 6.2.2 Write Format Options - CSV
-878. What options are available when writing CSV files?
-879. How do you specify custom delimiters when writing CSV?
-880. What does `option('header', 'true')` do when writing CSV?
-881. How do you control quote characters and escape characters in CSV writes?
-882. What is `option('compression', 'gzip')` used for? What compression codecs are supported?
+#### 6.2.0.1 Core Architecture
+897. What is DataFrameWriter (V1) built on?
+898. What is DataFrameWriterV2 (V2) built on?
+899. What is the DataSource V1 API?
+900. What is the DataSource V2 API?
+901. What type of architecture does V1 have - monolithic or pluggable?
+902. What type of architecture does V2 have - monolithic or pluggable?
+903. Is V1 tightly coupled or loosely coupled with Spark's SQL engine?
+904. What was V1 originally designed for - cloud storage or HDFS/relational databases?
+905. What was V2 designed for - legacy systems or cloud-native environments?
 
-### 6.2.3 Write Format Options - Parquet
-883. What compression codecs are supported for Parquet (snappy, gzip, lzo, brotli, etc.)?
-884. What is the default compression for Parquet in Spark?
-885. What does `option('mergeSchema', 'true')` do when writing Parquet?
+#### 6.2.0.2 Design Philosophy
+906. What is V1's design approach - "one size fits all" or "extensible framework"?
+907. What is V2's design approach - "one size fits all" or "extensible framework"?
+908. Does V1 have a fixed or customizable write execution pattern?
+909. Does V2 have a fixed or customizable write execution pattern?
+910. Are batch and streaming treated as separate or unified in V1?
+911. Are batch and streaming treated as separate or unified in V2?
+912. What type of commit protocols does V1 use - file-system oriented or transaction-aware?
+913. What type of commit protocols does V2 use - file-system oriented or transaction-aware?
+
+#### 6.2.0.3 V1 Technical Limitations
+914. Does V1 support atomic commits on cloud object stores?
+915. Does V1 have transaction boundaries for partial failures?
+916. What are the corruption risks in V1 during job failures?
+917. Are V1 recovery mechanisms limited or extensive?
+918. Is V1's execution model a black box or transparent?
+919. Is it easy or difficult to implement custom data sources in V1?
+920. Does V1 have limited or extensive push-down capability?
+921. Are V1 interface contracts rigid or flexible?
+922. Does V1 have fine-grained or coarse-grained overwrite behavior?
+923. How well does V1 integrate with catalog systems?
+924. Does V1 have limited or extensive schema evolution support?
+925. Are V1's data distribution controls basic or advanced?
+
+#### 6.2.0.4 V2 Architectural Solutions
+926. Does V2 support pluggable commit protocols?
+927. Does V2 support ACID transaction guarantees?
+928. Does V2 provide atomic operation guarantees?
+929. Does V2 have recovery and rollback capabilities?
+930. Does V2 have clean interfaces for custom implementations?
+931. Does V2 have an operation push-down framework?
+932. Can you customize write optimization in V2?
+933. Does V2 provide unified batch and streaming APIs?
+934. Does V2 have fine-grained data distribution controls?
+935. Does V2 support advanced partitioning strategies?
+936. Does V2 have integrated catalog management?
+937. Does V2 support native schema evolution?
+
+#### 6.2.0.5 Key Differentiators
+938. What execution model does V1 use - fixed pipeline or customizable pipeline?
+939. What execution model does V2 use - fixed pipeline or customizable pipeline?
+940. Does V1 support planning-time optimizations or only runtime optimizations?
+941. Does V2 support both planning-time and runtime optimizations?
+942. Is V1 connector development simple or complex?
+943. Is V2 connector development simple or complex?
+944. Does V1 require deep Spark internals knowledge for connector development?
+945. Does V2 have well-defined interfaces for connector development?
+946. Was V1 adapted to cloud storage or designed for it?
+947. Was V2 adapted to cloud storage or designed for it from inception?
+948. Does V1 have basic or native integration with modern table formats (Iceberg, Delta, Hudi)?
+949. Does V2 have basic or native integration with modern table formats?
+
+#### 6.2.0.6 Evolution Context
+950. What does V1 represent - Spark's origins or Spark's maturity?
+951. What does V2 represent - Spark's origins or Spark's maturity?
+952. Was V1 born from academic/early internet scale or cloud-native reality?
+953. What was V1's primary focus - HDFS/traditional databases or diverse ecosystems?
+954. What was V1's processing primacy - batch or streaming?
+955. What was V1's deployment model - single data center or global scale?
+956. Is V2 designed for cloud-native, hybrid cloud, or single data center?
+957. Does V2 unify streaming and batch or treat them separately?
+958. Is V2 designed for single deployment or global scale deployment?
+959. Does V2 focus on single ecosystem or diverse data ecosystem integration?
+
+#### 6.2.0.7 Practical Implications
+960. Is V1 sufficient for basic ETL and analytics?
+961. Is V2 necessary for production-grade, reliable pipelines?
+962. Should platform developers focus on V1 for innovation or maintenance?
+963. Should platform developers focus on V2 for innovation or ecosystem expansion?
+964. Should organizations use V1 for new projects or legacy maintenance?
+965. Should organizations use V2 as a future-proof foundation?
+
+#### 6.2.0.8 Strategic Direction
+966. Is V1 in active development or maintenance mode?
+967. Is V2 in active development or maintenance mode?
+968. Does V1 receive new feature development?
+969. Does V2 receive new feature development?
+970. What is V1's status - critical bug fixes only or new features?
+971. What is V2's status - maintenance or active development focus?
+972. Is V1 on a gradual deprecation path?
+973. Is V2 the focus for ecosystem expansion?
+974. Is V2 the priority for performance optimization?
+
+#### 6.2.0.9 Summary & Conclusion
+975. Does the V1 to V2 transition represent an API version increment or architectural shift?
+976. What did V1 address - initial scale challenges or modern reliability requirements?
+977. What does V2 address - initial scale or reliability/extensibility/operational requirements?
+978. Is V2 designed for cloud-native environments?
+979. Does V2 maintain backward compatibility for existing workloads?
+980. Is V2 fundamental for Spark to remain relevant in evolving data ecosystems?
+
+### 6.2.1 Write Modes - Comprehensive Analysis
+981. What are the four available write modes in PySpark?
+982. What does 'overwrite' mode do?
+983. What does 'append' mode do?
+984. What does 'ignore' mode do?
+985. What does 'error' or 'errorifexists' mode do?
+986. What is the default write mode in Spark?
+
+#### 6.2.1.1 Write Modes - Behavior Analysis
+987. What happens with 'overwrite' mode when target exists?
+988. What happens with 'overwrite' mode when target doesn't exist?
+989. What happens with 'append' mode when target exists?
+990. What happens with 'append' mode when target doesn't exist?
+991. What happens with 'ignore' mode when target exists?
+992. What happens with 'ignore' mode when target doesn't exist?
+993. What happens with 'errorifexists' mode when target exists?
+994. What happens with 'errorifexists' mode when target doesn't exist?
+
+#### 6.2.1.2 Write Modes - Use Cases
+995. What are common use cases for 'overwrite' mode?
+996. What are common use cases for 'append' mode?
+997. What are common use cases for 'ignore' mode?
+998. What are common use cases for 'errorifexists' mode?
+999. When would you use 'overwrite' for full refreshes?
+1000. When would you use 'append' for incremental loads?
+1001. When would you use 'ignore' for safe initialization?
+1002. When would you use 'errorifexists' for safety default?
+
+#### 6.2.1.3 Write Modes - Risk & Performance
+1003. What is the risk level of 'overwrite' mode - high, medium, or low?
+1004. What is the risk level of 'append' mode - high, medium, or low?
+1005. What is the risk level of 'ignore' mode - high, medium, or low?
+1006. What is the risk level of 'errorifexists' mode - high, medium, or low?
+1007. Which write mode is safest for data protection?
+1008. Which write mode is riskiest for accidental data loss?
+1009. What is the performance characteristic of 'ignore' when skipping?
+1010. What is the performance characteristic of 'overwrite' for large datasets?
+1011. What is the performance characteristic of 'append' mode?
+
+#### 6.2.1.4 Write Modes - Best Practices
+1012. What write mode should you use in development for testing?
+1013. What write mode should you use in production for incremental loads?
+1014. What write mode should you use in production for safety?
+1015. What write mode should you use for initialization/first-time setup?
+1016. What write mode prevents accidental overwrites?
+
+### 6.3 Partitioning During Writes
+
+#### 6.3.1 partitionBy vs bucketBy vs sortBy - Core Concepts
+1017. What is `partitionBy()` - physical or logical separation?
+1018. What is `bucketBy()` - physical or logical separation?
+1019. What is `sortBy()` - separation or ordering?
+1020. What does `partitionBy()` create on storage - folders or files?
+1021. What does `bucketBy()` create on storage - folders or files?
+1022. What does `sortBy()` create on storage - folders, files, or nothing?
+1023. Can you SEE `partitionBy()` separation in file explorer?
+1024. Can you SEE `bucketBy()` separation in file explorer?
+1025. Can you SEE `sortBy()` separation in file explorer?
+1026. What is the structure created by `partitionBy()` - example with country?
+1027. What is the structure created by `bucketBy()` - example with user_id?
+1028. What is the structure created by `sortBy()` - example with timestamp?
+
+#### 6.3.2 Analogies for Understanding
+1029. What is the analogy for `partitionBy()` - library with separate rooms?
+1030. What is the analogy for `bucketBy()` - single room with numbered shelves?
+1031. What is the analogy for `sortBy()` - books arranged alphabetically?
+
+#### 6.3.3 Availability Matrix - Format Support
+1032. Does CSV support `partitionBy()`?
+1033. Does CSV support `bucketBy()`?
+1034. Does CSV support `sortBy()`?
+1035. Does JSON support `partitionBy()`?
+1036. Does JSON support `bucketBy()`?
+1037. Does JSON support `sortBy()`?
+1038. Does Parquet/ORC support `partitionBy()`?
+1039. Does Parquet/ORC support `bucketBy()`?
+1040. Does Parquet/ORC support `sortBy()`?
+1041. Does JDBC support `partitionBy()`?
+1042. Does JDBC support `bucketBy()`?
+1043. Does JDBC support `sortBy()`?
+1044. Does `saveAsTable` support `partitionBy()`?
+1045. Does `saveAsTable` support `bucketBy()`?
+1046. Does `saveAsTable` support `sortBy()`?
+1047. Which write method is the ONLY one that supports `bucketBy()`?
+1048. Which write method is the ONLY one that supports `sortBy()`?
+1049. Which write method supports all three: `partitionBy()`, `bucketBy()`, and `sortBy()`?
+
+#### 6.3.4 Detailed Comparison
+1050. What separation level does `partitionBy()` operate at - directory, file, or row?
+1051. What separation level does `bucketBy()` operate at - directory, file, or row?
+1052. What separation level does `sortBy()` operate at - directory, file, or row?
+1053. Is `partitionBy()` visible in the file system?
+1054. Is `bucketBy()` visible in the file system?
+1055. Is `sortBy()` visible in the file system?
+1056. How do you access data with `partitionBy()` - direct folder navigation?
+1057. How do you access data with `bucketBy()` - hash calculation?
+1058. How do you access data with `sortBy()` - sequential scanning?
+1059. What is the optimal use case for `partitionBy()` - low or high cardinality?
+1060. What is the optimal use case for `bucketBy()` - low or high cardinality?
+1061. What is the optimal use case for `sortBy()` - specific access pattern?
+1062. What performance benefit does `partitionBy()` provide?
+1063. What performance benefit does `bucketBy()` provide?
+1064. What performance benefit does `sortBy()` provide?
+1065. How does `partitionBy()` impact file organization - multiple folders?
+1066. How does `bucketBy()` impact file organization - fixed files in one folder?
+1067. How does `sortBy()` impact file organization - same files, sorted internally?
+
+#### 6.3.5 When to Use Each Method
+1068. When should you use `partitionBy()` - clear categories like country/year?
+1069. When should you use `partitionBy()` - frequent filtering by categories?
+1070. When should you use `partitionBy()` - data lifecycle management?
+1071. What formats work with `partitionBy()` - files or tables or both?
+1072. When should you use `bucketBy()` - high-cardinality columns?
+1073. When should you use `bucketBy()` - frequently joined tables?
+1074. When should you use `bucketBy()` - need even data distribution?
+1075. What formats work with `bucketBy()` - files or tables?
+1076. When should you use `sortBy()` - range queries (BETWEEN, >, <)?
+1077. When should you use `sortBy()` - natural ordering (timestamps)?
+1078. When should you use `sortBy()` - better compression?
+1079. What formats work with `sortBy()` - files or tables?
+
+#### 6.3.6 Critical Limitations
+1080. Can file formats (CSV, JSON, Parquet, ORC) use `bucketBy()`?
+1081. Can file formats optimize joins at write time?
+1082. Can file formats use `sortBy()` during write?
+1083. Must you pre-sort DataFrames before writing to file formats?
+1084. Can JDBC writes use `partitionBy()`?
+1085. Why doesn't JDBC support `partitionBy()` - who handles partitioning?
+1086. Can JDBC writes use `bucketBy()`?
+1087. Why doesn't JDBC support `bucketBy()` - who handles indexing?
+1088. Can JDBC writes use `sortBy()`?
+1089. Why doesn't JDBC support `sortBy()` - who handles query optimization?
+1090. Does `saveAsTable` support the full feature set?
+1091. Is `saveAsTable` the only method for bucketing and sorting during write?
+1092. Does `saveAsTable` require metastore integration?
+
+#### 6.3.7 Best Practices
+1093. For maximum performance with `saveAsTable`, what three-layer optimization should you use?
+1094. What should you use `partitionBy()` for in the three-layer optimization?
+1095. What should you use `bucketBy()` for in the three-layer optimization?
+1096. What should you use `sortBy()` for in the three-layer optimization?
+1097. What is the ideal cardinality range for `partitionBy()` - 10-1000 distinct values?
+1098. What cardinality does `bucketBy()` handle well - millions of distinct values?
+1099. Are there cardinality limits for `sortBy()`?
+1100. What is the file management risk with `partitionBy()` - too many small files?
+1101. What is the file management characteristic of `bucketBy()` - fixed file count?
+1102. Does `sortBy()` impact file count?
+
+#### 6.3.8 Summary - Support Matrix
+1103. Is `partitionBy()` universal (files + tables)?
+1104. Is `bucketBy()` exclusive to `saveAsTable`?
+1105. Is `sortBy()` exclusive to `saveAsTable`?
+1106. Can you use `bucketBy()` or `sortBy()` with file formats (CSV, JSON, Parquet)?
+1107. Can you use any organization methods with JDBC writer?
+1108. Can you use `partitionBy()` with JDBC (who handles database partitioning)?
+
+#### 6.3.9 Key Insights
+1109. What does `partitionBy()` organize - your storage?
+1110. What does `bucketBy()` organize - your data relationships?
+1111. What does `sortBy()` organize - your data access patterns?
+1112. What is the key principle for choosing between these methods?
+
+### 6.4 Bucketing
+1113. What is bucketing in Spark? How do you use `bucketBy()` when writing data?
+1114. How does bucketing work: bucket numbers, columns, and hash functions?
+1115. What is the purpose of using `sortBy()` in combination with `bucketBy()`?
+1116. How does bucketing with sorting optimize sort-merge joins by eliminating shuffle?
+1117. Can you use `bucketBy()` with `partitionBy()` together?
+1118. What are the limitations of bucketing?
+1119. How do you read bucketed tables to take advantage of bucketing?
+1120. What happens if you change the number of buckets after writing data?
+
+### 6.5 Warehouse Tables vs Temp Views - Critical Comparison
+
+#### 6.5.1 Core Characteristics
+1121. What is a Spark Warehouse Table (Managed Table)?
+1122. What is a Spark Temp View?
+1123. Does a Warehouse Table physically store data?
+1124. Does a Temp View physically store data?
+1125. Where is Warehouse Table data stored (warehouse directory)?
+1126. Is a Temp View a logical abstraction or physical storage?
+1127. Does a Temp View hold any data itself?
+
+#### 6.5.2 Persistence & Lifetime
+1128. Is a Warehouse Table persistent or temporary?
+1129. Is a Temp View persistent or temporary?
+1130. Does a Warehouse Table survive Spark application restarts?
+1131. Does a Temp View survive Spark application restarts?
+1132. When does a Warehouse Table disappear - explicit DROP or automatic?
+1133. When does a Temp View disappear - explicit DROP or session end?
+1134. What is the lifetime of a regular Temp View - session-scoped?
+1135. What is the lifetime of a Global Temp View - session or application?
+1136. How long does a Warehouse Table persist - until explicitly dropped?
+1137. How long does a Temp View persist - until SparkSession ends?
+
+#### 6.5.3 Metadata Management
+1138. Is a Warehouse Table cataloged in a metastore?
+1139. Is a Temp View cataloged in a metastore?
+1140. Where is Warehouse Table schema and location stored?
+1141. Is a Temp View definition stored in a metastore?
+1142. Who knows about a Temp View definition - metastore or SparkSession?
+1143. Can Warehouse Tables be shared across multiple Spark applications?
+1144. Can Temp Views be shared across multiple Spark applications?
+
+#### 6.5.4 Impact of DROP Command
+1145. What happens when you DROP a Warehouse Table - metadata only or data too?
+1146. What happens when you DROP a Temp View - metadata only or data too?
+1147. Does DROP TABLE delete underlying data files for Warehouse Tables?
+1148. Does DROP VIEW delete underlying data source for Temp Views?
+1149. Who "owns" the data in a Warehouse Table - the table itself?
+1150. Who "owns" the data in a Temp View - the view or underlying source?
+
+#### 6.5.5 Underlying Data Source
+1151. What is the underlying data source for a Warehouse Table - the table itself?
+1152. What can be the underlying data source for a Temp View?
+1153. Can a Temp View be built on top of an existing table?
+1154. Can a Temp View be built on top of a file (CSV, Parquet)?
+1155. Can a Temp View be built on top of DataFrame transformations?
+
+#### 6.5.6 Primary Use Cases
+1156. What is the primary use case for Warehouse Tables?
+1157. What is the primary use case for Temp Views?
+1158. Are Warehouse Tables the "single source of truth"?
+1159. Are Temp Views suitable for ad-hoc, session-specific manipulation?
+1160. Should you use Warehouse Tables for data that needs to be stored long-term?
+1161. Should you use Temp Views for exploratory data analysis?
+
+#### 6.5.7 When to Use Which
+1162. When should you use a Warehouse Table - persist processing results?
+1163. When should you use a Warehouse Table - shared dimension/fact table?
+1164. When should you use a Warehouse Table - curated dataset or data mart?
+1165. When should you use a Warehouse Table - data lifecycle managed by Spark?
+1166. When should you use a Temp View - exploratory data analysis in notebook?
+1167. When should you use a Temp View - simplify complex SQL query?
+1168. When should you use a Temp View - work with DataFrames and run SQL?
+1169. When should you use a Temp View - data temporary for current session?
+
+#### 6.5.8 Key Analogy
+1170. What is the analogy for a Warehouse Table - physical house or blueprints?
+1171. What is the analogy for a Temp View - physical house or blueprints?
+1172. Is a Warehouse Table a permanent structure?
+1173. Is a Temp View a temporary description?
+
+## 7. File Formats & Storage Systems. What does `option('mergeSchema', 'true')` do when writing Parquet?
 886. How do you control Parquet block size and page size?
 887. What are the trade-offs between compression ratio and write/read performance?
 
