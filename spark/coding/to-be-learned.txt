@@ -1,0 +1,78 @@
+
+
+1. for percentile_rank window function ordering asc for the calculation be done perfectly
+2. The Golden Rule of Spark Performance: Avoid Shuffles & Sorting
+3. shuffle is the process of redistuting data across partitions
+4. shuffle involved network I/O, disk I/O, serialization/deserialization
+2. cost comparison beween operation like groupby, window functions and self join  and join etc.
+
+3. shoud not forget the usage of the lit function
+4. think about date formaty function
+5. list of transformation and list of actions
+6. list of narrow transformation and list of wide transformation
+7. there is no cast function available we have to use the cast as method or the expr version of sql
+8. usage of to_date function
+9. there is not round methdo, but we have round function
+10. Cast - only method, round  - only function
+11.win = Window.orderBy(fn.col('date').asc_nulls_last())\
+            .rowsBetween(Window.unboundedPreceding, Window.currentRow) 
+12 . using inlin, inline_outer with select only.
+13. after the cross join the resultring dataframe must be aliased to refer for another join if we are chaining it.
+15. if you are using and expr for joining, make sure both tables must be aliased so that it works
+16. while droppin a column after complex joins , use col function to the refer the column to drop
+27. doing the forward filling in spark - fn.last_value(fn.col('price'), ignoreNulls=True).over(win))
+28. element_at function if you want to access the last element of an array
+29. slice array function
+30. calculating moving average with null values where interval are not met, use row number with a different windon and add conditions
+31. handling skew on the aggregations on non-additive metrices
+32. approximate aggregation functions
+33. fn.soundex - function for words encryption based on sound, not on spelling
+34. when using '.' as delimeter, use it within '\\\\.' like this , with back slashes 
+35. Caching marks a DataFrame for persistence by saving its logical plan, 
+but the data is only materialized upon a subsequent action; importantly, 
+caching does not resolve column ambiguity from joins, 
+so you must always provide sufficient table references for column names
+36. usage of lit function
+37. what is the jsonB in postgre
+38. if you want to write window function in expr, do it full the function and and the window.
+    if you are using the function from pyspark, then define the window first
+39.while arriving moving averages, and having incomplete wiondows to have NULLS, use additional row number function to control the same.
+40. regexp_like function
+41. use of unix_timestamp function
+42. how approach the partitioning and re-partitioning based on the size of the dataframe and the executor memory ?
+43. how to save the spark saveAaTable to S3 ? -- .config("spark.sql.warehouse.dir", "s3a://my-bucket/warehouse/") 
+spark.conf.set("spark.sql.warehouse.dir", "s3a://your-bucket/user/hive/warehouse/")
+spark.sql('CREATE DATABASE IF NOT EXISTS rahul')
+spark.sql('USE rahul')
+spark.sql('SHOW TABLES').show()
+spark.sql('DESCRIBE rahul.transaction_table').show()
+spark.sql('DESCRIBE FORMATTED rahul.transaction_table').show(truncate = False)
+44. where repartitions benifits
+45. optimnal size of partition data frames, and why and how to measure it
+45. how to monitor dataSkew ?
+
+
+
+caching does not create a new dataframe, it saves the data and logical plan, unless an anction is called upon.
+So while referring columns from a cached datframe resulted from a join, then give the sufficient table reference for the column name.
+
+Once you do the dropDuplicates, you need to select and alias again, otherwise you will get error as the spark will drop column names also somehow, so, this will be safest method
+
+Remember to drop the join colum after joining.
+
+Using of collect_list function
+
+Percent_rank function to find  the percentile of a column using the column
+
+The Spark config set up paths 
+
+In case of nullif, use expr version./
+
+Tell me where caching is necessary ? and beneficial
+
+What is a partitioned join ?
+
+spark.conf.set("spark.sql.adaptive.enabled", "true")
+spark.conf.set("spark.sql.adaptive.coalescePartitions.enabled", "true")
+
+Give me all the configurations of AQE. and default values ?
