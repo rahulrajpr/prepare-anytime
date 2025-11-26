@@ -60,6 +60,19 @@ A comprehensive guide to dbt (data build tool) commands organized by use case, e
 | **```dbt show --select model_name```** | Preview model results (5 rows) | Quick data validation | ```bash<br/>dbt show --select customers<br/>``` |
 | **```dbt show --inline "select * from {{ ref('customers') }}"```** | Run ad-hoc SQL query | Quick data exploration | ```bash<br/>dbt show --inline "select ..."<br/>``` |
 
+### 🔍 Dry Run / Preview Commands
+
+| Command | Description | Use Case | Example |
+|---------|-------------|----------|---------|
+| **```dbt compile```** | Generate SQL without execution (dry run) | Preview what will be executed | ```bash<br/>dbt compile<br/>``` |
+| **```dbt compile --select model_name```** | Compile specific model only | Check single model SQL | ```bash<br/>dbt compile --select customers<br/>``` |
+| **```dbt show --select model_name```** | Execute and preview first 5 rows | Quick data preview without building | ```bash<br/>dbt show --select customers<br/>``` |
+| **```dbt show --select model_name --limit 10```** | Preview with custom row limit | See more sample data | ```bash<br/>dbt show --select customers --limit 10<br/>``` |
+| **```dbt parse```** | Parse project without execution | Validate project structure | ```bash<br/>dbt parse<br/>``` |
+| **```dbt ls```** | List resources that would be affected | Preview selection logic | ```bash<br/>dbt ls --select tag:daily<br/>``` |
+| **```dbt ls --select state:modified+```** | List modified models and downstream | Preview CI impact | ```bash<br/>dbt ls --select state:modified+<br/>``` |
+| **```dbt build --empty```** | Build DAG without running SQL (dbt 1.5+) | Validate dependencies | ```bash<br/>dbt build --empty<br/>``` |
+
 ---
 
 ## 🚀 Production Environment Commands
@@ -177,6 +190,279 @@ A comprehensive guide to dbt (data build tool) commands organized by use case, e
 | **```dbt clean```** | Delete target/ and dbt_packages/ | Clean build artifacts | ```bash<br/>dbt clean<br/>``` |
 | **```dbt debug```** | Test database connection | Diagnose connection issues | ```bash<br/>dbt debug<br/>``` |
 | **```dbt debug --config-dir```** | Show configuration location | Find config files | ```bash<br/>dbt debug --config-dir<br/>``` |
+
+---
+
+## 🎬 Dry Run & Preview Workflows
+
+### What is a "Dry Run" in dbt?
+
+dbt doesn't have a single `--dry-run` flag, but provides several commands to preview and validate without executing:
+
+### 1. **```dbt compile```** - SQL Generation (True Dry Run)
+
+**What it does:**
+- Compiles Jinja templates into SQL
+- Resolves all `ref()` and `source()` functions
+- Creates SQL files in `target/compiled/`
+- **Does NOT execute** any SQL against the database
+
+**Use cases:**
+- Preview SQL before running
+- Validate Jinja logic
+- Code review SQL output
+- Debug compilation issues
+
+```bash
+# Compile all models
+dbt compile
+
+# Compile specific model
+dbt compile --select customers
+
+# Compile with selection
+dbt compile --select tag:daily
+
+# View compiled SQL
+cat target/compiled/my_project/models/customers.sql
+```
+
+**Example workflow:**
+```bash
+# 1. Make changes to model
+vim models/customers.sql
+
+# 2. Compile to see generated SQL (dry run)
+dbt compile --select customers
+
+# 3. Review compiled SQL
+cat target/compiled/my_project/models/customers.sql
+
+# 4. If satisfied, execute
+dbt run --select customers
+```
+
+### 2. **```dbt show```** - Preview Results
+
+**What it does:**
+- Compiles SQL
+- **Executes query** against database
+- Returns limited results (default 5 rows)
+- Does NOT materialize models
+
+**Use cases:**
+- Quick data preview
+- Validate transformations
+- Test query logic
+- Sample output before full run
+
+```bash
+# Preview model output (5 rows)
+dbt show --select customers
+
+# Preview with more rows
+dbt show --select customers --limit 20
+
+# Preview inline SQL
+dbt show --inline "select * from {{ ref('stg_orders') }} where order_date >= current_date - 7"
+
+# Preview with specific output format
+dbt show --select customers --output json
+```
+
+**Example workflow:**
+```bash
+# 1. Preview staging model
+dbt show --select stg_customers --limit 10
+
+# 2. Check transformation looks correct
+dbt show --select int_customer_orders --limit 10
+
+# 3. Verify final mart
+dbt show --select customers --limit 10
+
+# 4. If satisfied, build
+dbt build --select customers
+```
+
+### 3. **```dbt parse```** - Validate Project Structure
+
+**What it does:**
+- Parses all project files
+- Validates YAML syntax
+- Checks for circular dependencies
+- Validates `ref()` and `source()` references
+- **Does NOT** connect to database
+
+**Use cases:**
+- Validate project structure
+- Check for syntax errors
+- Verify dependencies
+- Fast CI validation
+
+```bash
+# Parse and validate project
+dbt parse
+
+# Parse with debug output
+dbt parse --debug
+```
+
+**Example CI workflow:**
+```bash
+# Fast validation without database
+dbt parse
+
+# If parse succeeds, then compile
+dbt compile --select state:modified+
+```
+
+### 4. **```dbt ls```** - List Resources (Preview Selection)
+
+**What it does:**
+- Lists models/tests/sources that match selection
+- Shows what **would be** executed
+- **Does NOT** execute or compile
+
+**Use cases:**
+- Preview what will run
+- Validate selection syntax
+- Count affected models
+- CI impact analysis
+
+```bash
+# List all models
+dbt ls --resource-type model
+
+# List models that would run
+dbt ls --select tag:daily
+
+# List modified models and downstream
+dbt ls --select state:modified+
+
+# Count models in selection
+dbt ls --select tag:daily | wc -l
+
+# Output as JSON for scripting
+dbt ls --select tag:daily --output json
+```
+
+**Example CI workflow:**
+```bash
+# 1. List what will be affected
+echo "Models to run:"
+dbt ls --select state:modified+
+
+# 2. Show count
+echo "Total models: $(dbt ls --select state:modified+ | wc -l)"
+
+# 3. If count acceptable, run
+dbt run --select state:modified+
+```
+
+### 5. **```dbt build --empty```** - DAG Validation (dbt 1.5+)
+
+**What it does:**
+- Builds execution graph
+- Validates all dependencies
+- **Does NOT** execute SQL
+- Useful for testing DAG logic
+
+```bash
+# Validate build order without execution
+dbt build --empty
+
+# Validate specific selection
+dbt build --empty --select tag:daily
+```
+
+### Comparison Table
+
+| Command | Generates SQL | Executes SQL | Creates Objects | Use For |
+|---------|--------------|--------------|-----------------|---------|
+| **```dbt parse```** | ❌ No | ❌ No | ❌ No | Project validation |
+| **```dbt compile```** | ✅ Yes | ❌ No | ❌ No | SQL preview (true dry run) |
+| **```dbt ls```** | ❌ No | ❌ No | ❌ No | Selection preview |
+| **```dbt show```** | ✅ Yes | ✅ Yes | ❌ No | Data preview |
+| **```dbt build --empty```** | ❌ No | ❌ No | ❌ No | DAG validation |
+| **```dbt run```** | ✅ Yes | ✅ Yes | ✅ Yes | Full execution |
+
+### Recommended Dry Run Workflows
+
+#### Development Workflow
+```bash
+# 1. Validate project structure
+dbt parse
+
+# 2. Compile to check SQL
+dbt compile --select customers
+
+# 3. Preview data
+dbt show --select customers --limit 10
+
+# 4. Run if satisfied
+dbt run --select customers
+```
+
+#### CI/CD Workflow
+```bash
+# 1. Parse project (fast validation)
+dbt parse
+
+# 2. List what will be affected
+echo "Affected models:"
+dbt ls --select state:modified+
+
+# 3. Compile affected models
+dbt compile --select state:modified+
+
+# 4. Run if checks pass
+dbt build --select state:modified+
+```
+
+#### Pre-Production Validation
+```bash
+# 1. Compile all production models
+dbt compile --target prod
+
+# 2. List all models to run
+dbt ls --target prod --select tag:daily
+
+# 3. Validate no syntax errors
+dbt parse --target prod
+
+# 4. Deploy if validated
+dbt run --target prod --select tag:daily
+```
+
+### Tips for Effective Dry Runs
+
+**✅ Do:**
+- Use `dbt compile` to review SQL before running
+- Use `dbt show` to sample data during development
+- Use `dbt ls` to preview CI impact
+- Use `dbt parse` for fast validation in CI
+- Review compiled SQL in `target/compiled/` directory
+
+**❌ Don't:**
+- Assume `dbt show` is a true dry run (it executes queries)
+- Skip compilation when making complex Jinja changes
+- Forget to check `target/run/` for run-time SQL
+
+**💡 Pro Tips:**
+```bash
+# Chain commands for thorough validation
+dbt parse && dbt compile --select model_name && dbt show --select model_name
+
+# Use jq to analyze ls output
+dbt ls --select state:modified+ --output json | jq -r '.name'
+
+# Compile and immediately view SQL
+dbt compile --select model_name && cat target/compiled/my_project/models/model_name.sql
+
+# Create alias for common dry run
+alias dbt-preview="dbt parse && dbt compile"
+```
 
 ---
 
