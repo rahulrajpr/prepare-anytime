@@ -508,7 +508,7 @@ alias dbt-preview="dbt parse && dbt compile"
 | **```+model_name```** | Model and all parents | `dbt run --select +customers` |
 | **```model_name+```** | Model and all children | `dbt run --select customers+` |
 | **```+model_name+```** | Model, parents, and children | `dbt run --select +customers+` |
-| **```@model_name```** | Model in different state | `dbt run --select @customers` |
+| **```@model_name```** | model, parents, children, siblings, entire connnected graph | `dbt run --select @customers` |
 | **```tag:tag_name```** | All models with tag | `dbt run --select tag:hourly` |
 | **```source:source_name```** | All models from source | `dbt run --select source:raw_data` |
 | **```path:folder/```** | All models in folder | `dbt run --select path:models/staging/` |
@@ -534,6 +534,63 @@ alias dbt-preview="dbt parse && dbt compile"
 | **```n+```** | n-levels downstream | `dbt run --select 2+customers` (2 levels up) |
 | **```+n```** | n-levels upstream | `dbt run --select customers+2` (2 levels down) |
 | **```@```** | At-operator for state | `dbt run --select @state:modified` |
+
+# ✅ dbt Selector Cheat Sheet (Super Clear Comparison)
+
+Assume the model name is `model`.
+
+## 1️⃣ `model+` → model + downstream
+
+**Runs:**
+* `model`
+* all children (downstream)
+
+**Think:** ➡️ Forward direction only
+
+---
+
+## 2️⃣ `+model` → upstream + model
+
+**Runs:**
+* all parents (upstream)
+* `model`
+
+**Think:** ⬅️ Backward direction only
+
+---
+
+## 3️⃣ `+model+` → upstream + model + downstream
+
+**Runs:**
+* all parents
+* `model`
+* all children
+
+**Think:** ⬅️ model ➡️ (both sides)
+
+---
+
+## 4️⃣ `@model` → the entire connected graph
+
+**Runs:**
+* `model`
+* all upstream
+* all downstream
+* all siblings (same parents)
+* basically everything touching this model
+
+**Think:** 🌐 The whole family
+
+---
+
+## Quick Reference
+
+| Syntax | What it runs | Direction |
+|--------|-------------|-----------|
+| `model+` | model + children | ➡️ Forward |
+| `+model` | parents + model | ⬅️ Backward |
+| `+model+` | parents + model + children | ⬅️➡️ Both |
+| `@model` | entire connected graph | 🌐 Everything |
 
 ---
 
