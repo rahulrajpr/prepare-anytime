@@ -691,12 +691,14 @@ dbt run --select model_name --debug         # 🐛 Detailed logs
 
 ### ⚡ Performance Flags
 
+# ✅ dbt CLI Flags Reference
+
 | Flag | Description | Example |
 |------|-------------|---------|
-| **```--threads n```** | Number of concurrent threads | `dbt run --threads 16` |
-| **```--partial-parse```** | Enable partial parsing | `dbt run --partial-parse` |
-| **```--no-partial-parse```** | Disable partial parsing | `dbt run --no-partial-parse` |
-| **```--use-experimental-parser```** | Use faster parser | `dbt run --use-experimental-parser` |
+| `--threads n` | Sets the number of parallel workers dbt uses to execute models concurrently. More threads = more models running at the same time. | `dbt run --threads 16` |
+| `--partial-parse` | Enables partial parsing, allowing dbt to reuse previously parsed project state to significantly speed up compile time for large projects. | `dbt run --partial-parse` |
+| `--no-partial-parse` | Forces dbt to fully re-parse the entire project from scratch, ignoring cached parsing state. Useful when debugging parser issues. | `dbt run --no-partial-parse` |
+| `--use-experimental-parser` | Switches dbt to the faster, more efficient experimental parser that improves parsing speed and reduces startup time. | `dbt run --use-experimental-parser` |
 
 ---
 
