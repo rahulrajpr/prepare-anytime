@@ -51,7 +51,7 @@ This approach ensures I'm aligned with the business need before I write a single
 
 **Answer:**
 
-"Oh, this is basically my daily reality! Especially during the Trino to dbt migration project—we had over 100 pipelines, and requirements kept evolving as we discovered edge cases and business logic that wasn't documented anywhere.
+"Oh, this is basically my daily reality! There are requirements kept evolving as we discovered edge cases and business logic that wasn't documented anywhere.
 
 Here's how I deal with it:
 
