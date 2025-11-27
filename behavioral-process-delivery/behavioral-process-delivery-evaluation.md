@@ -26,9 +26,9 @@ So here's how I approach it:
 - What decisions are being blocked right now because you don't have this view?
 
 **Then I get into the Data Requirements:**
-- What metrics matter most? Revenue, conversion rates, pipeline health?
-- Time granularity—do you need daily trends, weekly rollups, monthly comparisons?
-- What dimensions do you care about? Region, product line, rep performance, customer segments?
+- What metrics matter most?
+- What dimensions do you care about? 
+- Time granularity ?
 - Any specific targets or benchmarks you're tracking against?
 
 **Next, I think about Technical Constraints and Performance:**
