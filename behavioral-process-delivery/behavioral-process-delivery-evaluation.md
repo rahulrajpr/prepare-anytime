@@ -21,8 +21,8 @@
 So here's how I approach it:
 
 **First, I focus on the Business Context:**
-- What problem are you trying to solve? What decision will this dashboard help you make?
-- Who's going to use this? Is it for executives, sales managers, or the field team? That changes everything about how we present the data.
+- What problem are you trying to solve?
+- Who's going to use this dashboard?
 - What decisions are being blocked right now because you don't have this view?
 
 **Then I get into the Data Requirements:**
