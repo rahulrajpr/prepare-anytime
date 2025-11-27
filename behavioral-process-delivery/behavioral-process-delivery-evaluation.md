@@ -16,7 +16,7 @@
 
 **Answer (STAR Format):**
 
-"Great question. I've dealt with this kind of ambiguity quite a bit, especially when I was working on migrating our BI platform from ThoughtSpot to Superset—we had over 100 reports, and many stakeholders would come with vague requests like 'I need this data visualized.'
+"Great question. I've dealt with this kind of ambiguity quite a bit, and many stakeholders would come with vague requests like 'I need this data visualized.'
 
 So here's how I approach it:
 
