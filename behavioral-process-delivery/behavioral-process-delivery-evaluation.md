@@ -406,8 +406,6 @@ This disciplined approach ensures predictable delivery and transparency."
 
 **Answer:**
 
-"Testing is critical, especially when you're migrating 100+ pipelines like we did with the Trino to dbt project. Here's my layered approach:
-
 **1. Unit Testing:**
 - For Python transformations, I write Pytest unit tests
 - For dbt models, I use dbt's built-in testing framework
