@@ -32,8 +32,8 @@ So here's how I approach it:
 - Any specific targets or benchmarks you're tracking against?
 
 **Next, I think about Technical Constraints and Performance:**
-- How fresh does this data need to be? Real-time, hourly, daily batch?
-- What's the data volume we're talking about? This matters for whether I use Redshift direct queries or pre-aggregate in dbt.
+- How fresh does this data need to be? -- Real-time, hourly, daily batch?
+- What's the data volume we're talking about?
 - Where's the source data? Do we already have it in our warehouse or do we need to ingest it?
 
 **Finally, Success Criteria:**
