@@ -1,4 +1,4 @@
-# AI Round Preparation Guide - Senior Data Engineer (Condensed)
+# AI Round Preparation Guide - Senior Data Engineer
 
 ## 1. Requirement Gathering Skills
 
