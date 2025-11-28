@@ -1,3 +1,1 @@
-### prepare-for-improvements 
-* notes
-* snippets
+### Be prepared always ..... you never know
