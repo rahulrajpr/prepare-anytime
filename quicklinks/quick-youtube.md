@@ -12,3 +12,6 @@
 - https://www.youtube.com/watch?v=eEe5Y_E4S1E
 - https://www.youtube.com/watch?v=6a61K-3Oh1g
 - https://www.youtube.com/watch?v=ll6QzcBbX9w
+
+# dbt
+ - https://youtu.be/OLXkGB7krGo
